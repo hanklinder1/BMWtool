@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BMW Ã Clemson â Data Risk Scoring Tool</title>
+<title>BMW × Clemson — Data Risk Scoring Tool</title>
 <style>
 /* ============================================================
-   CSS CUSTOM PROPERTIES â BMW Theme (default)
+   CSS CUSTOM PROPERTIES — BMW Theme (default)
    ============================================================ */
 [data-theme="bmw"] {
   --bg-page:        #0A1628;
@@ -24,6 +24,9 @@
   --tab-active-bg:  #132440;
   --tab-bar-bg:     #0D1E38;
   --header-bg:      #070F1E;
+  --header-border:  #1E3A5F;
+  --header-text:    #FFFFFF;
+  --header-sub:     #6A80A0;
   --slider-track:   #1E3A5F;
   --badge-bg:       #1E3A5F;
   --btn-secondary:  #1E3A5F;
@@ -32,7 +35,7 @@
 }
 
 /* ============================================================
-   CSS CUSTOM PROPERTIES â Clemson Theme
+   CSS CUSTOM PROPERTIES — Clemson Theme
    ============================================================ */
 [data-theme="clemson"] {
   --bg-page:        #F0F2F5;
@@ -49,7 +52,10 @@
   --silver:         #4A5568;
   --tab-active-bg:  #FFFFFF;
   --tab-bar-bg:     #E8EBF0;
-  --header-bg:      #1A1A2E;
+  --header-bg:      #F0F2F5;
+  --header-border:  #D8DDE8;
+  --header-text:    #1A1A2E;
+  --header-sub:     #718096;
   --slider-track:   #D8DDE8;
   --badge-bg:       #F0F2F5;
   --btn-secondary:  #E8EBF0;
@@ -77,7 +83,7 @@ html, body {
    ============================================================ */
 .app-header {
   background: var(--header-bg);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--header-border);
   padding: 12px 24px;
   display: flex;
   align-items: center;
@@ -85,31 +91,26 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-/* BMW Roundel â CSS only */
-.bmw-roundel {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 3px solid #777;
-  background: conic-gradient(
-    #0066CC 0deg 90deg,
-    #FFFFFF  90deg 180deg,
-    #0066CC 180deg 270deg,
-    #FFFFFF 270deg 360deg
-  );
-  position: relative;
+/* 3-square brand logo (BMW × Clemson) */
+.brand-logo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 4px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
 }
-.bmw-roundel::after {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.35);
+.brand-logo-sq {
+  border-radius: 5px;
 }
+.brand-logo-sq.sq-tl { background: #5B6B8A; }
+.brand-logo-sq.sq-tr { background: #5B6B8A; }
+.brand-logo-sq.sq-bl { background: #F66733; }
+.brand-logo-sq.sq-br { background: transparent; }
 
 .header-titles {
   flex: 1;
@@ -117,14 +118,16 @@ html, body {
 .header-titles h1 {
   font-size: 18px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--header-text);
   letter-spacing: 0.3px;
+  transition: color 0.3s;
 }
 .header-titles .subtitle {
   font-size: 11px;
-  color: var(--text-secondary);
+  color: var(--header-sub);
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  transition: color 0.3s;
 }
 .header-confidential {
   font-size: 10px;
@@ -1045,10 +1048,15 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
      HEADER
      ============================================================ -->
 <header class="app-header">
-  <div class="bmw-roundel" aria-label="BMW Logo"></div>
+  <div class="brand-logo" aria-label="BMW × Clemson Logo">
+    <div class="brand-logo-sq sq-tl"></div>
+    <div class="brand-logo-sq sq-tr"></div>
+    <div class="brand-logo-sq sq-bl"></div>
+    <div class="brand-logo-sq sq-br"></div>
+  </div>
   <div class="header-titles">
-    <h1>Data Risk Scoring Tool</h1>
-    <div class="subtitle">Clemson University &times; BMW Group &mdash; Data Valuation Project</div>
+    <h1>BMW &times; Clemson</h1>
+    <div class="subtitle">Valuing BMW&rsquo;s Data &mdash; Risk Scoring Tool</div>
   </div>
   <span class="header-confidential">Confidential</span>
   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">Clemson Theme</button>
@@ -1059,7 +1067,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
      ============================================================ -->
 <nav class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('calc')">Risk Calculator</button>
-  <button class="tab-btn" onclick="switchTab('vss')">â¡ VSS Scorer</button>
+  <button class="tab-btn" onclick="switchTab('vss')">&#9889; VSS Scorer</button>
   <button class="tab-btn" onclick="switchTab('how')">How It Works</button>
   <button class="tab-btn" onclick="switchTab('guide')">Attribute Guide</button>
   <button class="tab-btn" onclick="switchTab('ref')">BMW CIA Reference</button>
@@ -1181,7 +1189,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
     <div id="ciaSumDisplay" class="cia-sum-display ok">Sum: 1.00 &mdash; weights will be normalized for computation regardless of sum.</div>
   </div>
 
-  <!-- Attribute Groups â rendered by JS -->
+  <!-- Attribute Groups — rendered by JS -->
   <div id="attributeGroups"></div>
 
   <button class="reset-all-btn" onclick="resetAll()">Reset All to Defaults</button>
@@ -1196,13 +1204,13 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
 <div class="main-container">
 
   <div class="card" style="margin-bottom:16px;">
-    <div class="section-title">VSS Text â Auto-Score</div>
+    <div class="section-title">VSS Text &rarr; Auto-Score</div>
     <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">
       Paste a VSS (Video Scene Summary) description below. The scorer will analyze the text and
       automatically suggest signal scores for each attribute based on keyword and phrase matching.
       You can then review, adjust, and send the scores to the Risk Calculator.
     </p>
-    <textarea id="vssInput" placeholder='Paste VSS output here â e.g. "A red forklift enters the frame carrying stacked boxes while a worker places boxes on a shelf. Another worker measures the distance between two shelving units and places caution tape across the aisle."'
+    <textarea id="vssInput" placeholder='Paste VSS output here — e.g. "A red forklift enters the frame carrying stacked boxes while a worker places boxes on a shelf. Another worker measures the distance between two shelving units and places caution tape across the aisle."'
       style="width:100%; min-height:120px; background:var(--bg-input); border:1px solid var(--border); border-radius:8px;
              color:var(--text-primary); padding:12px; font-size:13px; line-height:1.6; resize:vertical; outline:none;
              font-family:inherit; transition:border-color 0.2s;"
@@ -1214,7 +1222,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       <button onclick="runVSSScore()" style="padding:9px 22px; background:var(--accent); border:none; border-radius:6px;
               color:#fff; font-size:13px; font-weight:700; cursor:pointer; transition:background 0.2s;"
               onmouseover="this.style.background='var(--accent-hover)'" onmouseout="this.style.background='var(--accent)'">
-        â¡ Auto-Score
+        &#9889; Auto-Score
       </button>
       <button onclick="loadVSSExample()" style="padding:9px 18px; background:var(--btn-secondary); border:1px solid var(--border);
               border-radius:6px; color:var(--text-secondary); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s;"
@@ -1251,15 +1259,15 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
               border:none; border-radius:6px; color:#fff; font-size:13px; font-weight:700; cursor:pointer;
               transition:background 0.2s; display:block; width:100%;"
               onmouseover="this.style.background='var(--accent-hover)'" onmouseout="this.style.background='var(--accent)'">
-        â Send Scores to Risk Calculator
+        &#8594; Send Scores to Risk Calculator
       </button>
     </div>
 
     <!-- Confidence note -->
     <div class="card-sm" style="margin-bottom:16px;">
       <div style="font-size:12px; color:var(--text-muted);">
-        <strong style="color:var(--text-secondary);">â¹ï¸ Scoring Confidence</strong> â Auto-scores are based on keyword and phrase pattern matching against your attribute rubrics.
-        High-confidence scores (darker highlight) have multiple supporting phrases. Low-confidence scores (lighter) had weak or indirect signals â review these carefully before sending.
+        <strong style="color:var(--text-secondary);">&#9432; Scoring Confidence</strong> &mdash; Auto-scores are based on keyword and phrase pattern matching against your attribute rubrics.
+        High-confidence scores (darker highlight) have multiple supporting phrases. Low-confidence scores (lighter) had weak or indirect signals &mdash; review these carefully before sending.
       </div>
     </div>
 
@@ -1267,7 +1275,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
 
   <!-- Empty state -->
   <div id="vssEmptyState" style="text-align:center; padding:48px 24px; color:var(--text-muted);">
-    <div style="font-size:36px; margin-bottom:12px;">ð</div>
+    <div style="font-size:36px; margin-bottom:12px; opacity:0.4;">&#128250;</div>
     <div style="font-size:14px; font-weight:600; margin-bottom:6px; color:var(--text-secondary);">Paste VSS output above to begin</div>
     <div style="font-size:12px;">The auto-scorer will map the description to your 8 risk attributes</div>
   </div>
@@ -1311,7 +1319,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       </ul>
       <strong>Example:</strong> Process Transparency has C=0.90 (strongly exposes workflow logic), I=0.40 (moderate manipulation risk), A=0.10 (low availability concern).
       <br><br>
-      These three values are <em>independent</em> â they do not need to sum to 1.
+      These three values are <em>independent</em> &mdash; they do not need to sum to 1.
       Each expresses a separate dimension of harm severity.
     </div>
   </div>
@@ -1339,7 +1347,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       <div class="formula-box">Score_i = Signal_i &times; (&alpha;n &times; C_i + &beta;n &times; I_i + &gamma;n &times; A_i)</div>
       where &alpha;n, &beta;n, &gamma;n are the normalized global weights.
       <br><br>
-      This formula ensures that only <em>observable</em> risk (signal) matters â an attribute with a dangerous CIA profile
+      This formula ensures that only <em>observable</em> risk (signal) matters &mdash; an attribute with a dangerous CIA profile
       but zero signal contributes nothing to the final score.
     </div>
   </div>
@@ -1353,7 +1361,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       Each attribute's weight reflects its relative importance to the overall risk assessment.
       Weights are also normalized, so their sum does not need to equal 1.
       <br><br>
-      The CIA dimension breakdown scores are computed similarly, without the global CIA weighting â they show the
+      The CIA dimension breakdown scores are computed similarly, without the global CIA weighting &mdash; they show the
       raw contribution of each dimension across all attributes.
     </div>
   </div>
@@ -1390,9 +1398,9 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       The <strong>CIA Triad</strong> is the foundational framework for information security governance, used by BMW Group to classify and protect all organizational data assets.
       It evaluates risk across three independent dimensions:
       <ul style="margin:10px 0 0 18px;">
-        <li style="margin-bottom:6px;"><strong style="color:#8B5CF6;">Confidentiality</strong> â Ensuring that information is accessible only to those authorized to access it. Breach exposes proprietary data to unauthorized parties.</li>
-        <li style="margin-bottom:6px;"><strong style="color:#0EA5E9;">Integrity</strong> â Ensuring that information is accurate, complete, and has not been tampered with. Breach results in decisions based on corrupted or manipulated data.</li>
-        <li><strong style="color:#10B981;">Availability</strong> â Ensuring that authorized users can access information when needed. Breach disrupts operations or creates external dependency.</li>
+        <li style="margin-bottom:6px;"><strong style="color:#8B5CF6;">Confidentiality</strong> &mdash; Ensuring that information is accessible only to those authorized to access it. Breach exposes proprietary data to unauthorized parties.</li>
+        <li style="margin-bottom:6px;"><strong style="color:#0EA5E9;">Integrity</strong> &mdash; Ensuring that information is accurate, complete, and has not been tampered with. Breach results in decisions based on corrupted or manipulated data.</li>
+        <li><strong style="color:#10B981;">Availability</strong> &mdash; Ensuring that authorized users can access information when needed. Breach disrupts operations or creates external dependency.</li>
       </ul>
       <br>
       In BMW's governance model, every data asset is assigned an <strong>Information Classification Level (ICL)</strong> based on these three dimensions,
@@ -1404,7 +1412,6 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
   <div class="ref-section">
     <div class="ref-section-title">The Three CIA Questions &mdash; BMW's Governance Framework</div>
     <div class="cia-question-cards">
-      <!-- Confidentiality -->
       <div class="cia-q-card" style="background:rgba(139,92,246,0.08); border-color:rgba(139,92,246,0.35);">
         <div class="cia-q-title" style="color:#8B5CF6;">
           <div class="adv-cia-letter bg-c">C</div>
@@ -1416,7 +1423,6 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
           regulatory impact, or embarrassment?"
         </div>
       </div>
-      <!-- Integrity -->
       <div class="cia-q-card" style="background:rgba(14,165,233,0.08); border-color:rgba(14,165,233,0.35);">
         <div class="cia-q-title" style="color:#0EA5E9;">
           <div class="adv-cia-letter bg-i">I</div>
@@ -1428,7 +1434,6 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
           regulatory impact, or embarrassment?"
         </div>
       </div>
-      <!-- Availability -->
       <div class="cia-q-card" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.35);">
         <div class="cia-q-title" style="color:#10B981;">
           <div class="adv-cia-letter bg-a">A</div>
@@ -1577,17 +1582,17 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
      ============================================================ -->
 <script>
 /* ============================================================
-   DATA MODEL â defaults as a frozen source of truth
+   DATA MODEL — defaults as a frozen source of truth
    ============================================================ */
 const DEFAULTS = Object.freeze({
-  globalCIA: [0.45, 0.30, 0.25], // [alpha, beta, gamma]
+  globalCIA: [0.45, 0.30, 0.25],
   attributes: [
     {
       name: 'Worker Presence',
       group: 'Human Exposure',
       groupKey: 'human',
       signal: 0.6,
-      cia: [0.80, 0.40, 0.20], // [C, I, A] impact factors
+      cia: [0.80, 0.40, 0.20],
       weight: 0.10,
       guide: {
         definition: 'Measures how many individuals appear within the observed process.',
@@ -1687,7 +1692,7 @@ const DEFAULTS = Object.freeze({
       weight: 0.10,
       guide: {
         definition: 'Measures how dependent the process is on human labor rather than automation.',
-        whyMatters: 'High human dependency signals less automated, more variable processes â exposing operational vulnerabilities and labor cost structures.',
+        whyMatters: 'High human dependency signals less automated, more variable processes — exposing operational vulnerabilities and labor cost structures.',
         rubric: [
           { val: '0.2', desc: 'Mostly automated; minimal human intervention' },
           { val: '0.5', desc: 'Mixed automation with human oversight' },
@@ -1739,7 +1744,7 @@ const DEFAULTS = Object.freeze({
 });
 
 /* ============================================================
-   LIVE STATE â deep copy from defaults
+   LIVE STATE — deep copy from defaults
    ============================================================ */
 let state = {
   globalCIA: [...DEFAULTS.globalCIA],
@@ -1754,10 +1759,10 @@ let state = {
    GROUP METADATA
    ============================================================ */
 const GROUPS = {
-  human:   { label: 'Human Exposure',          colorClass: 'group-human',   dotClass: 'group-human',   bgClass: 'group-human-bg',   colorStr: '#4E84C4' },
-  opvis:   { label: 'Operational Visibility',  colorClass: 'group-opvis',   dotClass: 'group-opvis',   bgClass: 'group-opvis-bg',   colorStr: '#8B5CF6' },
-  opdep:   { label: 'Operational Dependency',  colorClass: 'group-opdep',   dotClass: 'group-opdep',   bgClass: 'group-opdep-bg',   colorStr: '#EF4444' },
-  control: { label: 'Control & Safety',        colorClass: 'group-control', dotClass: 'group-control', bgClass: 'group-control-bg', colorStr: '#10B981' },
+  human:   { label: 'Human Exposure',          colorClass: 'group-human',   colorStr: '#4E84C4' },
+  opvis:   { label: 'Operational Visibility',  colorClass: 'group-opvis',   colorStr: '#8B5CF6' },
+  opdep:   { label: 'Operational Dependency',  colorClass: 'group-opdep',   colorStr: '#EF4444' },
+  control: { label: 'Control & Safety',        colorClass: 'group-control', colorStr: '#10B981' },
 };
 
 /* ============================================================
@@ -1766,14 +1771,11 @@ const GROUPS = {
 function compute() {
   const [alpha, beta, gamma] = state.globalCIA;
   const ciaSum = alpha + beta + gamma;
-  // Normalize global CIA weights
   const an = ciaSum > 0 ? alpha / ciaSum : 1/3;
   const bn = ciaSum > 0 ? beta  / ciaSum : 1/3;
   const gn = ciaSum > 0 ? gamma / ciaSum : 1/3;
 
   const attrs = state.attributes;
-
-  // Normalize attribute weights
   const wSum = attrs.reduce((s, a) => s + a.weight, 0) || 1;
 
   let riskNumerator = 0;
@@ -1783,11 +1785,9 @@ function compute() {
   for (let i = 0; i < attrs.length; i++) {
     const a = attrs[i];
     const [C, I, A] = a.cia;
-    // Per-attribute score
     const score = a.signal * (an * C + bn * I + gn * A);
     scores.push(score);
     riskNumerator += a.weight * score;
-    // CIA dimension breakdown (unweighted by global CIA)
     cNumerator += a.weight * a.signal * C;
     iNumerator += a.weight * a.signal * I;
     aNumerator += a.weight * a.signal * A;
@@ -1798,10 +1798,8 @@ function compute() {
   const iScore    = 100 * iNumerator / wSum;
   const aScore    = 100 * aNumerator / wSum;
 
-  // Per-attribute contribution % to total risk score
   const contribs = attrs.map((a, i) => {
-    const contrib = riskScore > 0 ? (100 * (a.weight * scores[i] / wSum) / riskScore) : 0;
-    return contrib;
+    return riskScore > 0 ? (100 * (a.weight * scores[i] / wSum) / riskScore) : 0;
   });
 
   return { riskScore, cScore, iScore, aScore, scores, contribs, wSum };
@@ -1824,14 +1822,13 @@ function getDecision(score) {
 }
 
 /* ============================================================
-   UI UPDATE â updates DOM from current state + computed values
+   UI UPDATE
    ============================================================ */
 function updateUI() {
   const result = compute();
   const { riskScore, cScore, iScore, aScore, scores, contribs } = result;
   const level = getRiskLevel(riskScore);
 
-  // Main score display
   const numEl = document.getElementById('scoreNumber');
   numEl.textContent = riskScore.toFixed(1);
   numEl.className = 'risk-score-number ' + level.cls;
@@ -1846,7 +1843,6 @@ function updateUI() {
 
   document.getElementById('scoreBarPct').textContent = riskScore.toFixed(1) + '%';
 
-  // CIA breakdown bars
   const clamp100 = v => Math.min(v, 100).toFixed(1);
   document.getElementById('cScore').textContent = cScore.toFixed(1);
   document.getElementById('iScore').textContent = iScore.toFixed(1);
@@ -1855,14 +1851,12 @@ function updateUI() {
   document.getElementById('iBar').style.width = clamp100(iScore) + '%';
   document.getElementById('aBar').style.width = clamp100(aScore) + '%';
 
-  // Decision guide
   const decision = getDecision(riskScore);
   ['deploy','restrict','reject'].forEach(d => {
     const el = document.getElementById('dec-' + d);
     if (el) el.classList.toggle('active-decision', d === decision);
   });
 
-  // CIA weight displays
   document.getElementById('ciaWeightValC').textContent = state.globalCIA[0].toFixed(2);
   document.getElementById('ciaWeightValI').textContent = state.globalCIA[1].toFixed(2);
   document.getElementById('ciaWeightValA').textContent = state.globalCIA[2].toFixed(2);
@@ -1870,10 +1864,8 @@ function updateUI() {
   const ciaSum = state.globalCIA.reduce((s, v) => s + v, 0);
   const sumEl = document.getElementById('ciaSumDisplay');
   sumEl.textContent = 'Sum: ' + ciaSum.toFixed(2) + ' \u2014 weights will be normalized for computation regardless of sum.';
-  const nearOne = Math.abs(ciaSum - 1.0) < 0.02;
-  sumEl.className = 'cia-sum-display ' + (nearOne ? 'ok' : 'warn');
+  sumEl.className = 'cia-sum-display ' + (Math.abs(ciaSum - 1.0) < 0.02 ? 'ok' : 'warn');
 
-  // Attribute rows
   state.attributes.forEach((attr, i) => {
     const signalDisp = document.getElementById('sig-val-' + i);
     if (signalDisp) signalDisp.textContent = attr.signal.toFixed(2);
@@ -1884,14 +1876,11 @@ function updateUI() {
     const wInp = document.getElementById('w-input-' + i);
     if (wInp) wInp.value = attr.weight.toFixed(2);
 
-    // Contribution display
-    const contribPct = contribs[i];
     const cvEl = document.getElementById('contrib-val-' + i);
     const cpEl = document.getElementById('contrib-bar-' + i);
-    if (cvEl) cvEl.textContent = contribPct.toFixed(1) + '%';
-    if (cpEl) cpEl.style.width = Math.min(contribPct, 100).toFixed(1) + '%';
+    if (cvEl) cvEl.textContent = contribs[i].toFixed(1) + '%';
+    if (cpEl) cpEl.style.width = Math.min(contribs[i], 100).toFixed(1) + '%';
 
-    // CIA advanced sliders + values
     ['c','i','a'].forEach((dim, di) => {
       const sl = document.getElementById('cia-' + dim + '-slider-' + i);
       const vl = document.getElementById('cia-' + dim + '-val-' + i);
@@ -1900,12 +1889,11 @@ function updateUI() {
     });
   });
 
-  // Update worked example table
   updateWorkedExample(scores, result);
 }
 
 /* ============================================================
-   RENDER ATTRIBUTE GROUPS (initial render)
+   RENDER ATTRIBUTE GROUPS
    ============================================================ */
 function renderAttributes() {
   const container = document.getElementById('attributeGroups');
@@ -1929,13 +1917,10 @@ function renderAttributes() {
       html += `
       <div class="attr-row" id="attr-row-${i}">
         <div class="attr-row-main">
-          <!-- Name -->
           <div class="attr-name-col">
             <div class="attr-dot ${g.colorClass}"></div>
             <div class="attr-name">${attr.name}</div>
           </div>
-
-          <!-- Signal slider -->
           <div class="signal-col">
             <div>
               <div class="signal-label">Signal Score</div>
@@ -1946,31 +1931,22 @@ function renderAttributes() {
               </div>
             </div>
           </div>
-
-          <!-- Weight -->
           <div class="weight-col">
             <div class="weight-label">Attr. Weight</div>
             <input type="number" id="w-input-${i}" min="0" max="1" step="0.01" value="${attr.weight.toFixed(2)}"
                    oninput="onWeight(${i}, this.value)">
           </div>
-
-          <!-- Contribution -->
           <div class="contrib-col">
             <div class="contrib-label">Contribution</div>
-            <div id="contrib-val-${i}" class="contrib-val ${g.colorClass.replace('group-','group-') + '-color'}">â%</div>
+            <div id="contrib-val-${i}" class="contrib-val ${g.colorClass}-color">—%</div>
             <div class="mini-progress">
               <div id="contrib-bar-${i}" class="mini-progress-fill ${g.colorClass}" style="width:0%;"></div>
             </div>
           </div>
-
-          <!-- Advanced toggle -->
           <button class="adv-toggle-btn" id="adv-btn-${i}" onclick="toggleAdvanced(${i})">Advanced</button>
         </div>
-
-        <!-- Advanced CIA panel -->
         <div class="attr-advanced" id="adv-panel-${i}">
           <div class="adv-grid">
-            <!-- C Impact -->
             <div class="adv-cia-item">
               <div class="adv-cia-label">
                 <div class="adv-cia-letter bg-c">C</div>
@@ -1980,7 +1956,6 @@ function renderAttributes() {
               <input type="range" class="cia-c-slider" id="cia-c-slider-${i}" min="0" max="1" step="0.01"
                      value="${attr.cia[0]}" oninput="onCIAImpact(${i}, 0, this.value)">
             </div>
-            <!-- I Impact -->
             <div class="adv-cia-item">
               <div class="adv-cia-label">
                 <div class="adv-cia-letter bg-i">I</div>
@@ -1990,7 +1965,6 @@ function renderAttributes() {
               <input type="range" class="cia-i-slider" id="cia-i-slider-${i}" min="0" max="1" step="0.01"
                      value="${attr.cia[1]}" oninput="onCIAImpact(${i}, 1, this.value)">
             </div>
-            <!-- A Impact -->
             <div class="adv-cia-item">
               <div class="adv-cia-label">
                 <div class="adv-cia-letter bg-a">A</div>
@@ -2015,14 +1989,13 @@ function renderAttributes() {
 }
 
 /* ============================================================
-   WORKED EXAMPLE TABLE (rendered in "How It Works" tab)
+   WORKED EXAMPLE TABLE
    ============================================================ */
 function updateWorkedExample(scores, result) {
   const tbl = document.getElementById('workedExampleTable');
   const sum = document.getElementById('workedExampleSummary');
   if (!tbl || !sum) return;
 
-  // Use default values for the worked example (static illustration)
   const DEFS = DEFAULTS.attributes;
   const [alpha, beta, gamma] = DEFAULTS.globalCIA;
   const ciaSum = alpha + beta + gamma;
@@ -2081,14 +2054,14 @@ function updateWorkedExample(scores, result) {
   `;
 
   sum.innerHTML = `
-    Using default weights (&alpha;=0.45, &beta;=0.30, &gamma;=0.25) normalized to 1.0, and default attribute values,
+    Using default weights (&alpha;=0.45, &beta;=0.30, &gamma;=0.25) and default attribute values,
     the final risk score is <strong style="color:var(--accent);">${finalScore.toFixed(1)} / 100</strong>
     &mdash; placing this scenario in the <strong>${getRiskLevel(finalScore).label}</strong> category.
   `;
 }
 
 /* ============================================================
-   ATTRIBUTE GUIDE â render cards
+   ATTRIBUTE GUIDE — render cards
    ============================================================ */
 function renderGuide() {
   const grid = document.getElementById('guideGrid');
@@ -2110,30 +2083,19 @@ function renderGuide() {
           <div class="guide-attr-name">${a.name}</div>
           <div class="guide-group-badge ${g.colorClass}">${g.label}</div>
         </div>
-
         <div class="guide-section-label">Definition</div>
         <div class="guide-text">${a.guide.definition}</div>
-
         <div class="guide-section-label">Why It Matters</div>
         <div class="guide-text">${a.guide.whyMatters}</div>
-
         <div class="guide-section-label">Scoring Rubric</div>
         ${rubricRows}
-
         <div class="guide-section-label">VSS Example</div>
         <div class="vss-quote">${a.guide.vss} &rarr; Score ${a.guide.vssScore}</div>
-
         <div class="guide-section-label">Default CIA Profile</div>
         <div class="cia-profile-row">
-          <div class="cia-profile-badge" style="background:rgba(139,92,246,0.15); color:#8B5CF6;">
-            C = ${C.toFixed(2)}
-          </div>
-          <div class="cia-profile-badge" style="background:rgba(14,165,233,0.15); color:#0EA5E9;">
-            I = ${I.toFixed(2)}
-          </div>
-          <div class="cia-profile-badge" style="background:rgba(16,185,129,0.15); color:#10B981;">
-            A = ${A.toFixed(2)}
-          </div>
+          <div class="cia-profile-badge" style="background:rgba(139,92,246,0.15); color:#8B5CF6;">C = ${C.toFixed(2)}</div>
+          <div class="cia-profile-badge" style="background:rgba(14,165,233,0.15); color:#0EA5E9;">I = ${I.toFixed(2)}</div>
+          <div class="cia-profile-badge" style="background:rgba(16,185,129,0.15); color:#10B981;">A = ${A.toFixed(2)}</div>
         </div>
       </div>
     `;
@@ -2146,9 +2108,8 @@ function renderGuide() {
    EVENT HANDLERS
    ============================================================ */
 function onCIASlider(dim, val) {
-  const v = parseFloat(val);
   const map = { C: 0, I: 1, A: 2 };
-  state.globalCIA[map[dim]] = v;
+  state.globalCIA[map[dim]] = parseFloat(val);
   updateUI();
 }
 
@@ -2174,9 +2135,7 @@ function toggleAdvanced(i) {
   state.attributes[i].advOpen = !state.attributes[i].advOpen;
   const panel = document.getElementById('adv-panel-' + i);
   const btn   = document.getElementById('adv-btn-'   + i);
-  if (panel) {
-    panel.classList.toggle('open', state.attributes[i].advOpen);
-  }
+  if (panel) panel.classList.toggle('open', state.attributes[i].advOpen);
   if (btn) {
     btn.classList.toggle('open', state.attributes[i].advOpen);
     btn.textContent = state.attributes[i].advOpen ? 'Close' : 'Advanced';
@@ -2193,17 +2152,14 @@ function resetAttribute(i) {
 
 function resetAll() {
   state.globalCIA = [...DEFAULTS.globalCIA];
-  state.attributes = DEFAULTS.attributes.map(a => ({
+  state.attributes = DEFAULTS.attributes.map((a, i) => ({
     ...a,
     cia: [...a.cia],
-    advOpen: state.attributes.find(s => s.name === a.name)?.advOpen || false
+    advOpen: state.attributes[i]?.advOpen || false
   }));
-
-  // Sync CIA weight sliders
   document.getElementById('ciaSliderC').value = state.globalCIA[0];
   document.getElementById('ciaSliderI').value = state.globalCIA[1];
   document.getElementById('ciaSliderA').value = state.globalCIA[2];
-
   updateUI();
 }
 
@@ -2211,22 +2167,13 @@ function resetAll() {
    TAB SWITCHING
    ============================================================ */
 function switchTab(id) {
-  // Hide all tabs, deactivate all buttons
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-
-  // Show selected tab
   const tabEl = document.getElementById('tab-' + id);
   if (tabEl) tabEl.classList.add('active');
-
-  // Activate matching button (find by onclick attribute)
   document.querySelectorAll('.tab-btn').forEach(btn => {
-    if (btn.getAttribute('onclick') === "switchTab('" + id + "')") {
-      btn.classList.add('active');
-    }
+    if (btn.getAttribute('onclick') === "switchTab('" + id + "')") btn.classList.add('active');
   });
-
-  // Update worked example when switching to "how" tab
   if (id === 'how') {
     const r = compute();
     updateWorkedExample(r.scores, r);
@@ -2251,24 +2198,21 @@ function toggleTheme() {
 /* ============================================================
    VSS SCORING ENGINE
    ============================================================ */
-
-// Keyword/phrase map for each attribute
-// Each entry has: patterns (regex or string), score contribution, confidence weight
 const VSS_SCORING_MAP = [
   {
-    attrIndex: 0, // Worker Presence
+    attrIndex: 0,
     name: 'Worker Presence',
     rules: [
       { pattern: /\b(workers?|employees?|operators?|personnel|individuals?|people|technicians?|staff)\b/gi,        score: 0.3,  conf: 0.4, label: 'worker mention' },
       { pattern: /\b(two|2|multiple|several|group|team|pair)\b.{0,30}\b(workers?|people|individuals?|employees?)\b/gi, score: 0.6, conf: 0.8, label: 'multiple workers' },
-      { pattern: /\b(workers?|individuals?|employees?).{0,30}\b(together|alongside|each other|side by side)\b/gi,  score: 0.9,  conf: 0.9, label: 'workers together' },
-      { pattern: /\b(crowd|many workers?|large group|numerous)\b/gi,                                               score: 1.0,  conf: 0.9, label: 'large group' },
-      { pattern: /\b(alone|single worker|one (worker|person|individual|employee))\b/gi,                           score: 0.3,  conf: 0.7, label: 'single worker' },
-      { pattern: /\b(no workers?|empty|unoccupied|no (people|personnel|staff))\b/gi,                              score: 0.0,  conf: 0.8, label: 'no workers' },
+      { pattern: /\b(workers?|individuals?|employees?).{0,30}\b(together|alongside|each other|side by side)\b/gi,  score: 0.9, conf: 0.9, label: 'workers together' },
+      { pattern: /\b(crowd|many workers?|large group|numerous)\b/gi,                                               score: 1.0, conf: 0.9, label: 'large group' },
+      { pattern: /\b(alone|single worker|one (worker|person|individual|employee))\b/gi,                           score: 0.3, conf: 0.7, label: 'single worker' },
+      { pattern: /\b(no workers?|empty|unoccupied|no (people|personnel|staff))\b/gi,                              score: 0.0, conf: 0.8, label: 'no workers' },
     ]
   },
   {
-    attrIndex: 1, // Worker Proximity
+    attrIndex: 1,
     name: 'Worker Proximity',
     rules: [
       { pattern: /\b(stand(ing)? together|work(ing)? together|side by side|next to each other)\b/gi,               score: 0.9, conf: 0.9, label: 'standing together' },
@@ -2280,7 +2224,7 @@ const VSS_SCORING_MAP = [
     ]
   },
   {
-    attrIndex: 2, // Process Transparency
+    attrIndex: 2,
     name: 'Process Transparency',
     rules: [
       { pattern: /\b(retrieves?|picks? up|grabs?).{0,40}\b(place[sd]?|put[s]?|position[s]?|arrange[sd]?)\b/gi,   score: 0.7, conf: 0.8, label: 'retrieve-place sequence' },
@@ -2294,7 +2238,7 @@ const VSS_SCORING_MAP = [
     ]
   },
   {
-    attrIndex: 3, // Equipment Visibility
+    attrIndex: 3,
     name: 'Equipment Visibility',
     rules: [
       { pattern: /\bforklift\b/gi,                                                                                 score: 0.5, conf: 0.8, label: 'forklift' },
@@ -2308,7 +2252,7 @@ const VSS_SCORING_MAP = [
     ]
   },
   {
-    attrIndex: 4, // Machine Criticality
+    attrIndex: 4,
     name: 'Machine Criticality',
     rules: [
       { pattern: /\b(critical|essential|core|primary|main|key)\b.{0,30}\b(machine|system|equipment|process|line)\b/gi, score: 1.0, conf: 0.9, label: 'critical system' },
@@ -2320,7 +2264,7 @@ const VSS_SCORING_MAP = [
     ]
   },
   {
-    attrIndex: 5, // Human Process Dependency
+    attrIndex: 5,
     name: 'Human Process Dependency',
     rules: [
       { pattern: /\b(manually|by hand|hand[-\s]operated|manual(ly)?)\b/gi,                                        score: 0.9, conf: 0.8, label: 'manual operation' },
@@ -2332,7 +2276,7 @@ const VSS_SCORING_MAP = [
     ]
   },
   {
-    attrIndex: 6, // Safety Control Presence
+    attrIndex: 6,
     name: 'Safety Control Presence',
     rules: [
       { pattern: /\b(caution tape|safety tape|barrier tape|police tape|hazard tape)\b/gi,                         score: 0.7, conf: 0.8, label: 'caution tape' },
@@ -2346,7 +2290,7 @@ const VSS_SCORING_MAP = [
     ]
   },
   {
-    attrIndex: 7, // Inspection Activity
+    attrIndex: 7,
     name: 'Inspection Activity',
     rules: [
       { pattern: /\b(measur(e|ing|es|ed)|measuring tape|measure[sd]? (the|distance|spacing|width|length))\b/gi,  score: 0.8, conf: 0.8, label: 'measurement inspection' },
@@ -2360,8 +2304,7 @@ const VSS_SCORING_MAP = [
   },
 ];
 
-// VSS scoring state
-let vssScores = [0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.8, 0.7]; // store suggested scores
+let vssScores = [0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.8, 0.7];
 
 function onVSSInput() {
   const text = document.getElementById('vssInput').value;
@@ -2410,56 +2353,42 @@ function runVSSScore() {
       }
     });
 
-    // If no matches, give a low baseline (0.2) for always-present baseline noise
     const finalScore = matched.length > 0 ? parseFloat(maxScore.toFixed(2)) : 0.2;
     const confidence = matched.length > 0 ? Math.min(1, totalConf) : 0.1;
     vssScores[attr.attrIndex] = finalScore;
 
-    results.push({
-      attrIndex: attr.attrIndex,
-      name: attr.name,
-      score: finalScore,
-      confidence,
-      matched
-    });
+    results.push({ attrIndex: attr.attrIndex, name: attr.name, score: finalScore, confidence, matched });
   });
 
   renderVSSResults(results, allKeywords);
 }
 
 function renderVSSResults(results, keywords) {
-  // Show keyword tags
   const tagContainer = document.getElementById('vssKeywordTags');
   if (keywords.length === 0) {
     tagContainer.innerHTML = '<span style="font-size:12px; color:var(--text-muted);">No specific signals detected in text.</span>';
   } else {
-    // Deduplicate by label
     const seen = new Set();
     tagContainer.innerHTML = keywords
       .filter(k => { if (seen.has(k.label)) return false; seen.add(k.label); return true; })
       .map(k => `<span style="padding:4px 10px; background:var(--badge-bg); border:1px solid var(--border-light);
-                   border-radius:12px; font-size:11px; color:var(--text-secondary); white-space:nowrap;">
-                   ${k.label}
-                 </span>`)
+                   border-radius:12px; font-size:11px; color:var(--text-secondary); white-space:nowrap;">${k.label}</span>`)
       .join('');
   }
 
-  // Render scored attribute rows
   const container = document.getElementById('vssScoredAttrs');
-  const groups = { human: [], opvis: [], opdep: [], control: [] };
   const groupKeys = ['human', 'opvis', 'opdep', 'control'];
   const groupNames = { human: 'Human Exposure', opvis: 'Operational Visibility', opdep: 'Operational Dependency', control: 'Control & Safety' };
-  const attrGroupMap = [0,0,1,1,2,2,3,3]; // map attrIndex to group index
+  const attrGroupMap = [0,0,1,1,2,2,3,3];
 
   let html = '';
   results.forEach((r, idx) => {
     const confPct = Math.round(r.confidence * 100);
     const confColor = r.confidence > 0.6 ? 'var(--accent)' : r.confidence > 0.3 ? '#F39C12' : 'var(--text-muted)';
     const matchDesc = r.matched.length > 0
-      ? r.matched.map(m => `${m.label} (Ã${m.count})`).join(', ')
-      : 'No direct signals â baseline score assigned';
+      ? r.matched.map(m => `${m.label} (\u00d7${m.count})`).join(', ')
+      : 'No direct signals \u2014 baseline score assigned';
 
-    // New group header
     if (idx === 0 || attrGroupMap[idx] !== attrGroupMap[idx-1]) {
       const gkey = groupKeys[attrGroupMap[idx]];
       const gColors = { human: '#4E84C4', opvis: '#8B5CF6', opdep: '#EF4444', control: '#10B981' };
@@ -2482,28 +2411,20 @@ function renderVSSResults(results, keywords) {
         <span id="vss-score-val-${idx}" style="font-size:14px; font-weight:800; color:var(--accent);
               min-width:36px; text-align:right; font-variant-numeric:tabular-nums;">${r.score.toFixed(2)}</span>
       </div>
-      <div style="font-size:11px; color:var(--text-muted); font-style:italic;">
-        Signals: ${matchDesc}
-      </div>
+      <div style="font-size:11px; color:var(--text-muted); font-style:italic;">Signals: ${matchDesc}</div>
     </div>`;
   });
 
   container.innerHTML = html;
-
-  // Show results, hide empty state
   document.getElementById('vssResults').style.display = 'block';
   document.getElementById('vssEmptyState').style.display = 'none';
 }
 
 function sendToCalculator() {
-  // Push vssScores into state.attributes and update UI
   vssScores.forEach((score, i) => {
-    if (i < state.attributes.length) {
-      state.attributes[i].signal = score;
-    }
+    if (i < state.attributes.length) state.attributes[i].signal = score;
   });
 
-  // Update slider elements in the calculator tab if they exist
   state.attributes.forEach((attr, i) => {
     const slider = document.getElementById('sig-slider-' + i);
     if (slider) slider.value = attr.signal;
@@ -2514,12 +2435,11 @@ function sendToCalculator() {
   updateUI();
   switchTab('calc');
 
-  // Flash a brief confirmation
   setTimeout(() => {
     const badge = document.getElementById('levelBadge');
     if (badge) {
       const orig = badge.textContent;
-      badge.textContent = 'â Scores Applied';
+      badge.textContent = '\u2713 Scores Applied';
       setTimeout(() => { badge.textContent = orig; }, 1500);
     }
   }, 100);
@@ -2532,8 +2452,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAttributes();
   renderGuide();
   updateUI();
-
-  // Pre-compute worked example for when How It Works tab is opened
   const r = compute();
   updateWorkedExample(r.scores, r);
 });
