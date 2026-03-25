@@ -1192,6 +1192,46 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
   <!-- Attribute Groups — rendered by JS -->
   <div id="attributeGroups"></div>
 
+  <!-- CIA Averages Summary -->
+  <div class="card" style="margin-top:16px;">
+    <div class="section-title">CIA Weighted Averages</div>
+    <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px;">
+      Weighted average of each dimension across all attributes (0&ndash;100).
+    </p>
+    <div class="cia-bars">
+      <div class="cia-bar-item">
+        <div class="cia-bar-label">
+          <span class="cia-letter color-c">C</span>
+          <span class="cia-name">Confidentiality</span>
+          <span id="ciaSummaryC" class="cia-val color-c">0.0</span>
+        </div>
+        <div class="progress-track">
+          <div id="ciaSumBarC" class="progress-fill bg-c" style="width:0%;"></div>
+        </div>
+      </div>
+      <div class="cia-bar-item">
+        <div class="cia-bar-label">
+          <span class="cia-letter color-i">I</span>
+          <span class="cia-name">Integrity</span>
+          <span id="ciaSummaryI" class="cia-val color-i">0.0</span>
+        </div>
+        <div class="progress-track">
+          <div id="ciaSumBarI" class="progress-fill bg-i" style="width:0%;"></div>
+        </div>
+      </div>
+      <div class="cia-bar-item">
+        <div class="cia-bar-label">
+          <span class="cia-letter color-a">A</span>
+          <span class="cia-name">Availability</span>
+          <span id="ciaSummaryA" class="cia-val color-a">0.0</span>
+        </div>
+        <div class="progress-track">
+          <div id="ciaSumBarA" class="progress-fill bg-a" style="width:0%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <button class="reset-all-btn" onclick="resetAll()">Reset All to Defaults</button>
 
 </div>
@@ -1291,18 +1331,16 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
 
   <div class="step-card">
     <div class="step-num">Step 1</div>
-    <div class="step-title">VSS Text &rarr; Signal Score</div>
+    <div class="step-title">CIA Impact Ratings per Attribute</div>
     <div class="step-body">
-      The VSS (Video Scene Summary) tool converts factory surveillance video into structured text descriptions.
-      A human analyst reads each description and assigns a <strong>Signal Score</strong> (0&ndash;1) to each attribute,
-      reflecting how strongly that attribute appears in the observed scene.
+      Each attribute is directly rated on three CIA dimensions (C, I, A), each ranging from 0 to 1.
+      These reflect how severely that attribute threatens each CIA dimension if observed.
       <ul>
-        <li><strong>0.0</strong> &mdash; Not present or not observable</li>
-        <li><strong>0.3&ndash;0.5</strong> &mdash; Weakly or moderately present</li>
-        <li><strong>0.7&ndash;1.0</strong> &mdash; Clearly and strongly present</li>
+        <li><strong>0.0</strong> &mdash; No impact on this dimension</li>
+        <li><strong>0.3&ndash;0.5</strong> &mdash; Moderate impact</li>
+        <li><strong>0.7&ndash;1.0</strong> &mdash; High impact</li>
       </ul>
-      Signal Scores are entirely observation-driven and reflect what is visible in the data stream,
-      not an assumed worst-case.
+      Ratings are set directly by the analyst for each attribute &mdash; no intermediate signal score is required.
     </div>
   </div>
 
@@ -1343,12 +1381,9 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
     <div class="step-num">Step 4</div>
     <div class="step-title">Per-Attribute Score</div>
     <div class="step-body">
-      Each attribute receives a composite score combining its signal strength and CIA profile:
-      <div class="formula-box">Score_i = Signal_i &times; (&alpha;n &times; C_i + &beta;n &times; I_i + &gamma;n &times; A_i)</div>
+      Each attribute receives a composite score from its CIA values weighted by global CIA priorities:
+      <div class="formula-box">Score_i = &alpha;n &times; C_i + &beta;n &times; I_i + &gamma;n &times; A_i</div>
       where &alpha;n, &beta;n, &gamma;n are the normalized global weights.
-      <br><br>
-      This formula ensures that only <em>observable</em> risk (signal) matters &mdash; an attribute with a dangerous CIA profile
-      but zero signal contributes nothing to the final score.
     </div>
   </div>
 
@@ -1356,13 +1391,11 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
     <div class="step-num">Step 5</div>
     <div class="step-title">Final Risk Score</div>
     <div class="step-body">
-      All attribute scores are combined via a weighted average, scaled to 0&ndash;100:
-      <div class="formula-box">Risk Score = 100 &times; &Sigma;(Weight_i &times; Score_i) / &Sigma;(Weight_i)</div>
+      CIA dimension averages are computed as weighted averages across all attributes, then combined using global CIA weights:
+      <div class="formula-box">C_avg = &Sigma;(w_i &times; C_i) / &Sigma;(w_i)</div>
+      <div class="formula-box">Risk Score = 100 &times; (&alpha;n &times; C_avg + &beta;n &times; I_avg + &gamma;n &times; A_avg)</div>
       Each attribute's weight reflects its relative importance to the overall risk assessment.
-      Weights are also normalized, so their sum does not need to equal 1.
-      <br><br>
-      The CIA dimension breakdown scores are computed similarly, without the global CIA weighting &mdash; they show the
-      raw contribution of each dimension across all attributes.
+      Weights do not need to sum to 1 &mdash; they are normalized automatically.
     </div>
   </div>
 
@@ -1778,25 +1811,23 @@ function compute() {
   const attrs = state.attributes;
   const wSum = attrs.reduce((s, a) => s + a.weight, 0) || 1;
 
-  let riskNumerator = 0;
   let cNumerator = 0, iNumerator = 0, aNumerator = 0;
   const scores = [];
 
   for (let i = 0; i < attrs.length; i++) {
     const a = attrs[i];
     const [C, I, A] = a.cia;
-    const score = a.signal * (an * C + bn * I + gn * A);
+    const score = an * C + bn * I + gn * A;
     scores.push(score);
-    riskNumerator += a.weight * score;
-    cNumerator += a.weight * a.signal * C;
-    iNumerator += a.weight * a.signal * I;
-    aNumerator += a.weight * a.signal * A;
+    cNumerator += a.weight * C;
+    iNumerator += a.weight * I;
+    aNumerator += a.weight * A;
   }
 
-  const riskScore = 100 * riskNumerator / wSum;
   const cScore    = 100 * cNumerator / wSum;
   const iScore    = 100 * iNumerator / wSum;
   const aScore    = 100 * aNumerator / wSum;
+  const riskScore = an * cScore + bn * iScore + gn * aScore;
 
   const contribs = attrs.map((a, i) => {
     return riskScore > 0 ? (100 * (a.weight * scores[i] / wSum) / riskScore) : 0;
@@ -1867,12 +1898,6 @@ function updateUI() {
   sumEl.className = 'cia-sum-display ' + (Math.abs(ciaSum - 1.0) < 0.02 ? 'ok' : 'warn');
 
   state.attributes.forEach((attr, i) => {
-    const signalDisp = document.getElementById('sig-val-' + i);
-    if (signalDisp) signalDisp.textContent = attr.signal.toFixed(2);
-
-    const sigSlider = document.getElementById('sig-slider-' + i);
-    if (sigSlider) sigSlider.value = attr.signal;
-
     const wInp = document.getElementById('w-input-' + i);
     if (wInp) wInp.value = attr.weight.toFixed(2);
 
@@ -1888,6 +1913,16 @@ function updateUI() {
       if (vl) vl.textContent = attr.cia[di].toFixed(2);
     });
   });
+
+  const ciaSummary = document.getElementById('ciaSummaryC');
+  if (ciaSummary) {
+    document.getElementById('ciaSummaryC').textContent = cScore.toFixed(1);
+    document.getElementById('ciaSummaryI').textContent = iScore.toFixed(1);
+    document.getElementById('ciaSummaryA').textContent = aScore.toFixed(1);
+    document.getElementById('ciaSumBarC').style.width = Math.min(cScore, 100).toFixed(1) + '%';
+    document.getElementById('ciaSumBarI').style.width = Math.min(iScore, 100).toFixed(1) + '%';
+    document.getElementById('ciaSumBarA').style.width = Math.min(aScore, 100).toFixed(1) + '%';
+  }
 
   updateWorkedExample(scores, result);
 }
@@ -1921,16 +1956,6 @@ function renderAttributes() {
             <div class="attr-dot ${g.colorClass}"></div>
             <div class="attr-name">${attr.name}</div>
           </div>
-          <div class="signal-col">
-            <div>
-              <div class="signal-label">Signal Score</div>
-              <div style="display:flex;align-items:center;gap:8px;margin-top:3px;">
-                <input type="range" id="sig-slider-${i}" min="0" max="1" step="0.01" value="${attr.signal}"
-                       oninput="onSignal(${i}, this.value)" style="flex:1;min-width:80px;">
-                <div id="sig-val-${i}" class="signal-val-display">${attr.signal.toFixed(2)}</div>
-              </div>
-            </div>
-          </div>
           <div class="weight-col">
             <div class="weight-label">Attr. Weight</div>
             <input type="number" id="w-input-${i}" min="0" max="1" step="0.01" value="${attr.weight.toFixed(2)}"
@@ -1943,9 +1968,8 @@ function renderAttributes() {
               <div id="contrib-bar-${i}" class="mini-progress-fill ${g.colorClass}" style="width:0%;"></div>
             </div>
           </div>
-          <button class="adv-toggle-btn ${attr.advOpen ? 'open' : ''}" id="adv-btn-${i}" onclick="toggleAdvanced(${i})">${attr.advOpen ? 'Close' : 'Advanced'}</button>
         </div>
-        <div class="attr-advanced ${attr.advOpen ? 'open' : ''}" id="adv-panel-${i}">
+        <div class="attr-advanced open" id="adv-panel-${i}">
           <div class="adv-grid">
             <div class="adv-cia-item">
               <div class="adv-cia-label">
@@ -1975,8 +1999,7 @@ function renderAttributes() {
                      value="${attr.cia[2]}" oninput="onCIAImpact(${i}, 2, this.value)">
             </div>
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="adv-note">C, I, and A impact factors are independent. Each ranges 0&ndash;1 and does not need to sum to 1.</div>
+          <div style="display:flex; justify-content:flex-end;">
             <button class="adv-reset-btn" onclick="resetAttribute(${i})">Reset Defaults</button>
           </div>
         </div>
@@ -2007,14 +2030,13 @@ function updateWorkedExample(scores, result) {
 
   DEFS.forEach(a => {
     const [C, I, A] = a.cia;
-    const score_i = a.signal * (an * C + bn * I + gn * A);
+    const score_i = an * C + bn * I + gn * A;
     const weighted = a.weight * score_i;
     totalWeightedScore += weighted;
 
     rows += `
       <tr>
         <td>${a.name}</td>
-        <td style="text-align:center;">${a.signal.toFixed(2)}</td>
         <td style="text-align:center;">${a.weight.toFixed(2)}</td>
         <td style="text-align:center;color:#8B5CF6;">${C.toFixed(2)}</td>
         <td style="text-align:center;color:#0EA5E9;">${I.toFixed(2)}</td>
@@ -2033,7 +2055,6 @@ function updateWorkedExample(scores, result) {
         <thead>
           <tr>
             <th>Attribute</th>
-            <th>Signal</th>
             <th>Weight</th>
             <th style="color:#8B5CF6;">C</th>
             <th style="color:#0EA5E9;">I</th>
@@ -2045,7 +2066,7 @@ function updateWorkedExample(scores, result) {
         <tbody>
           ${rows}
           <tr>
-            <td colspan="7" style="text-align:right; padding-right:20px;">Final Risk Score = 100 &times; &Sigma;(w &times; Score_i) / &Sigma;(w)</td>
+            <td colspan="6" style="text-align:right; padding-right:20px;">Final Risk Score = &alpha;&middot;C_avg + &beta;&middot;I_avg + &gamma;&middot;A_avg (scaled 0&ndash;100)</td>
             <td style="text-align:center; color: var(--accent);">${finalScore.toFixed(2)}</td>
           </tr>
         </tbody>
