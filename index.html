@@ -1247,8 +1247,8 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
     <div class="section-title">VSS Text &rarr; Auto-Score</div>
     <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">
       Paste a VSS (Video Scene Summary) description below. The scorer will analyze the text and
-      automatically suggest signal scores for each attribute based on keyword and phrase matching.
-      You can then review, adjust, and send the scores to the Risk Calculator.
+      automatically suggest C, I, A values for each attribute based on keyword and phrase matching.
+      You can then review, adjust each dimension, and send to the Risk Calculator.
     </p>
     <textarea id="vssInput" placeholder='Paste VSS output here — e.g. "A red forklift enters the frame carrying stacked boxes while a worker places boxes on a shelf. Another worker measures the distance between two shelving units and places caution tape across the aisle."'
       style="width:100%; min-height:120px; background:var(--bg-input); border:1px solid var(--border); border-radius:8px;
@@ -1289,9 +1289,9 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
 
     <!-- Per-attribute scored results -->
     <div class="card" style="margin-bottom:16px;">
-      <div class="section-title">Suggested Signal Scores</div>
+      <div class="section-title">Suggested CIA Values</div>
       <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-        Scores are auto-suggested based on phrase matching. Review each one and adjust if needed before sending to the calculator.
+        C, I, A values are auto-suggested based on detected intensity from phrase matching. Review and adjust each dimension before sending to the calculator.
       </p>
       <div id="vssScoredAttrs"></div>
 
@@ -1306,8 +1306,8 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
     <!-- Confidence note -->
     <div class="card-sm" style="margin-bottom:16px;">
       <div style="font-size:12px; color:var(--text-muted);">
-        <strong style="color:var(--text-secondary);">&#9432; Scoring Confidence</strong> &mdash; Auto-scores are based on keyword and phrase pattern matching against your attribute rubrics.
-        High-confidence scores (darker highlight) have multiple supporting phrases. Low-confidence scores (lighter) had weak or indirect signals &mdash; review these carefully before sending.
+        <strong style="color:var(--text-secondary);">&#9432; Scoring Confidence</strong> &mdash; Auto-suggested CIA values are based on keyword and phrase pattern matching against your attribute rubrics.
+        High-confidence suggestions (darker highlight) have multiple supporting phrases. Low-confidence suggestions (lighter) had weak or indirect signals &mdash; review these carefully before sending.
       </div>
     </div>
 
@@ -2108,10 +2108,10 @@ function renderGuide() {
         <div class="guide-text">${a.guide.definition}</div>
         <div class="guide-section-label">Why It Matters</div>
         <div class="guide-text">${a.guide.whyMatters}</div>
-        <div class="guide-section-label">Scoring Rubric</div>
+        <div class="guide-section-label">CIA Intensity Rubric</div>
         ${rubricRows}
         <div class="guide-section-label">VSS Example</div>
-        <div class="vss-quote">${a.guide.vss} &rarr; Score ${a.guide.vssScore}</div>
+        <div class="vss-quote">${a.guide.vss} &rarr; Suggested intensity: ${a.guide.vssScore}</div>
         <div class="guide-section-label">Default CIA Profile</div>
         <div class="cia-profile-row">
           <div class="cia-profile-badge" style="background:rgba(139,92,246,0.15); color:#8B5CF6;">C = ${C.toFixed(2)}</div>
@@ -2325,7 +2325,8 @@ const VSS_SCORING_MAP = [
   },
 ];
 
-let vssScores = [0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.8, 0.7];
+// vssScores[i] = [C, I, A] per attribute
+let vssScores = Array.from({length: 8}, () => [0.5, 0.5, 0.5]);
 
 function onVSSInput() {
   const text = document.getElementById('vssInput').value;
@@ -2376,7 +2377,7 @@ function runVSSScore() {
 
     const finalScore = matched.length > 0 ? parseFloat(maxScore.toFixed(2)) : 0.2;
     const confidence = matched.length > 0 ? Math.min(1, totalConf) : 0.1;
-    vssScores[attr.attrIndex] = finalScore;
+    vssScores[attr.attrIndex] = [finalScore, finalScore, finalScore];
 
     results.push({ attrIndex: attr.attrIndex, name: attr.name, score: finalScore, confidence, matched });
   });
@@ -2417,22 +2418,28 @@ function renderVSSResults(results, keywords) {
                            color:${gColors[gkey]}; margin: ${idx > 0 ? '18px' : '4px'} 0 8px;">${groupNames[gkey]}</div>`;
     }
 
+    const ciaColors = ['#8B5CF6','#0EA5E9','#10B981'];
+    const ciaLabels = ['C','I','A'];
+    const ciaSliders = ciaLabels.map((lbl, di) => `
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+        <span style="font-size:11px; font-weight:700; color:${ciaColors[di]}; width:12px;">${lbl}</span>
+        <input type="range" min="0" max="1" step="0.01" value="${r.score}"
+               id="vss-slider-${idx}-${di}"
+               oninput="vssScores[${idx}][${di}]=parseFloat(this.value); document.getElementById('vss-val-${idx}-${di}').textContent=parseFloat(this.value).toFixed(2);"
+               style="flex:1; height:5px; cursor:pointer; accent-color:${ciaColors[di]};">
+        <span id="vss-val-${idx}-${di}" style="font-size:13px; font-weight:700; color:${ciaColors[di]};
+              min-width:32px; text-align:right; font-variant-numeric:tabular-nums;">${r.score.toFixed(2)}</span>
+      </div>`).join('');
+
     html += `
     <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:8px;
                 padding:12px 14px; margin-bottom:8px;">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
         <span style="font-size:13px; font-weight:600; color:var(--text-primary); flex:1;">${r.name}</span>
         <span style="font-size:11px; color:${confColor};">Confidence: ${confPct}%</span>
       </div>
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
-        <input type="range" min="0" max="1" step="0.01" value="${r.score}"
-               id="vss-slider-${idx}"
-               oninput="vssScores[${idx}]=parseFloat(this.value); document.getElementById('vss-score-val-${idx}').textContent=parseFloat(this.value).toFixed(2);"
-               style="flex:1; height:5px; cursor:pointer;">
-        <span id="vss-score-val-${idx}" style="font-size:14px; font-weight:800; color:var(--accent);
-              min-width:36px; text-align:right; font-variant-numeric:tabular-nums;">${r.score.toFixed(2)}</span>
-      </div>
-      <div style="font-size:11px; color:var(--text-muted); font-style:italic;">Signals: ${matchDesc}</div>
+      ${ciaSliders}
+      <div style="font-size:11px; color:var(--text-muted); font-style:italic; margin-top:6px;">Signals: ${matchDesc}</div>
     </div>`;
   });
 
@@ -2442,15 +2449,8 @@ function renderVSSResults(results, keywords) {
 }
 
 function sendToCalculator() {
-  vssScores.forEach((score, i) => {
-    if (i < state.attributes.length) state.attributes[i].signal = score;
-  });
-
-  state.attributes.forEach((attr, i) => {
-    const slider = document.getElementById('sig-slider-' + i);
-    if (slider) slider.value = attr.signal;
-    const display = document.getElementById('sig-val-' + i);
-    if (display) display.textContent = attr.signal.toFixed(2);
+  vssScores.forEach((cia, i) => {
+    if (i < state.attributes.length) state.attributes[i].cia = [...cia];
   });
 
   updateUI();
