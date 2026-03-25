@@ -1751,7 +1751,7 @@ let state = {
   attributes: DEFAULTS.attributes.map(a => ({
     ...a,
     cia: [...a.cia],
-    advOpen: false
+    advOpen: true
   }))
 };
 
@@ -1943,9 +1943,9 @@ function renderAttributes() {
               <div id="contrib-bar-${i}" class="mini-progress-fill ${g.colorClass}" style="width:0%;"></div>
             </div>
           </div>
-          <button class="adv-toggle-btn" id="adv-btn-${i}" onclick="toggleAdvanced(${i})">Advanced</button>
+          <button class="adv-toggle-btn ${attr.advOpen ? 'open' : ''}" id="adv-btn-${i}" onclick="toggleAdvanced(${i})">${attr.advOpen ? 'Close' : 'Advanced'}</button>
         </div>
-        <div class="attr-advanced" id="adv-panel-${i}">
+        <div class="attr-advanced ${attr.advOpen ? 'open' : ''}" id="adv-panel-${i}">
           <div class="adv-grid">
             <div class="adv-cia-item">
               <div class="adv-cia-label">
@@ -2155,7 +2155,7 @@ function resetAll() {
   state.attributes = DEFAULTS.attributes.map((a, i) => ({
     ...a,
     cia: [...a.cia],
-    advOpen: state.attributes[i]?.advOpen || false
+    advOpen: state.attributes[i]?.advOpen ?? true
   }));
   document.getElementById('ciaSliderC').value = state.globalCIA[0];
   document.getElementById('ciaSliderI').value = state.globalCIA[1];
