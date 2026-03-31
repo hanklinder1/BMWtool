@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BMW × Clemson — Data Risk Scoring Tool</title>
+<title>BMW × Clemson — Data Risk Assessment Tool — ICL Pre-Screening</title>
 <style>
 /* ============================================================
    CSS CUSTOM PROPERTIES — BMW Theme (default)
@@ -275,6 +275,70 @@ html, body {
   transition: background 0.4s, color 0.4s;
 }
 
+/* ICL Level Display */
+.icl-level-display {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--bg-card-alt);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+.icl-level-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+.icl-level-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  transition: background 0.4s;
+}
+.icl-level-detail {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.icl-level-detail strong {
+  color: var(--text-primary);
+}
+
+/* Maximum Principle Banner */
+.max-principle-banner {
+  display: none;
+  padding: 14px 18px;
+  background: rgba(231, 76, 60, 0.1);
+  border: 2px solid #E74C3C;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+.max-principle-banner.active {
+  display: block;
+}
+.max-principle-banner .banner-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #E74C3C;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.max-principle-banner .banner-body {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
 .risk-bar-container {
   margin-bottom: 20px;
 }
@@ -355,7 +419,7 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   flex-shrink: 0;
-  width: 70px;
+  width: 160px;
 }
 .decision-desc {
   font-size: 12px;
@@ -366,6 +430,141 @@ html, body {
   font-size: 11px;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   BMW STRUCTURED REPORT
+   ============================================================ */
+.bmw-report-wrapper {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.bmw-report-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.bmw-report-header:hover {
+  background: var(--bg-input);
+}
+.bmw-report-header-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+.bmw-report-header-toggle {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+}
+.bmw-report-body {
+  display: none;
+  padding: 18px;
+}
+.bmw-report-body.open {
+  display: block;
+}
+.report-section {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.report-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.report-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.report-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 12px;
+}
+.report-row-label {
+  color: var(--text-muted);
+}
+.report-row-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.report-attr-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 12px;
+}
+.report-attr-name {
+  flex: 1;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.report-attr-score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+  text-align: right;
+}
+.report-attr-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.report-attr-cia {
+  font-size: 10px;
+  color: var(--text-muted);
+  min-width: 60px;
+  text-align: right;
+}
+.report-recommendation {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-style: italic;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent);
+}
+.copy-report-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 14px;
+  background: var(--btn-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.copy-report-btn:hover {
+  background: var(--btn-secondary-hover);
+  color: var(--text-primary);
 }
 
 /* ============================================================
@@ -867,6 +1066,21 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
   font-weight: 700;
 }
 
+/* VSS Observability Warning */
+.vss-observability-note {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(243, 156, 18, 0.1);
+  border: 1px solid rgba(243, 156, 18, 0.35);
+  border-radius: 6px;
+  font-size: 11px;
+  color: #B7791F;
+  line-height: 1.5;
+}
+[data-theme="bmw"] .vss-observability-note {
+  color: #F6C85A;
+}
+
 /* ============================================================
    BMW CIA REFERENCE TAB
    ============================================================ */
@@ -1056,7 +1270,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
   </div>
   <div class="header-titles">
     <h1>BMW &times; Clemson</h1>
-    <div class="subtitle">Valuing BMW&rsquo;s Data &mdash; Risk Scoring Tool</div>
+    <div class="subtitle">Valuing BMW&rsquo;s Data &mdash; Risk Assessment Tool &mdash; ICL Pre-Screening</div>
   </div>
   <span class="header-confidential">Confidential</span>
   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">BMW Theme</button>
@@ -1086,6 +1300,26 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       <div id="scoreNumber" class="risk-score-number risk-moderate">32.4</div>
       <div class="risk-score-denom">/100</div>
       <div id="levelBadge" class="risk-level-badge badge-moderate">Moderate Risk</div>
+    </div>
+
+    <!-- ICL Level Display -->
+    <div class="icl-level-display" id="iclDisplay">
+      <div>
+        <div class="icl-level-label">BMW ICL Classification</div>
+        <div id="iclBadge" class="icl-level-badge" style="background:#D4AC0D; margin-top:6px;">Confidential</div>
+      </div>
+      <div class="icl-level-detail">
+        <div>Damage Potential: <strong id="iclDamage">Up to ~$1,000,000</strong></div>
+        <div>Protection Class: <strong id="iclProtection">Basic Protection</strong></div>
+      </div>
+    </div>
+
+    <!-- Maximum Principle Banner -->
+    <div class="max-principle-banner" id="maxPrincipleBanner">
+      <div class="banner-title">&#9888; Maximum Principle Triggered</div>
+      <div class="banner-body" id="maxPrincipleBody">
+        One or more attributes scored critically high. Per BMW ICL aggregation rules, the entire dataset should be escalated to the next classification level.
+      </div>
     </div>
 
     <!-- Main progress bar -->
@@ -1133,27 +1367,39 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       </div>
     </div>
 
-    <!-- Decision guide -->
-    <div class="section-title mb-0">Sharing Decision Guide</div>
+    <!-- Decision guide (secondary reference) -->
+    <div class="section-title mb-0">Sharing Decision Guide (Reference)</div>
     <div class="decision-guide mt-8">
       <div class="decision-row" id="dec-deploy">
         <div class="decision-dot" style="background:#27AE60;"></div>
-        <div class="decision-label" style="color:#27AE60;">Deploy</div>
-        <div class="decision-desc">Data may be shared with standard contractual protections.</div>
+        <div class="decision-label" style="color:#27AE60;">Not Public / Deploy</div>
+        <div class="decision-desc">Data may be shared with standard contractual protections &mdash; subject to BMW risk team review.</div>
         <div class="decision-range">Score &le; 25</div>
       </div>
       <div class="decision-row" id="dec-restrict">
         <div class="decision-dot" style="background:#F39C12;"></div>
-        <div class="decision-label" style="color:#F39C12;">Restrict</div>
-        <div class="decision-desc">Share only under enhanced NDA, limited scope, and audit rights.</div>
+        <div class="decision-label" style="color:#F39C12;">Confidential / Strictly Confidential</div>
+        <div class="decision-desc">Share only under enhanced NDA, limited scope, and audit rights &mdash; subject to BMW risk team review.</div>
         <div class="decision-range">Score 26&ndash;60</div>
       </div>
       <div class="decision-row" id="dec-reject">
         <div class="decision-dot" style="background:#E74C3C;"></div>
-        <div class="decision-label" style="color:#E74C3C;">Reject</div>
-        <div class="decision-desc">Do not share. Escalate for executive review or anonymization.</div>
+        <div class="decision-label" style="color:#E74C3C;">Secret / Reject</div>
+        <div class="decision-desc">Do not share. Escalate for executive review or anonymization &mdash; subject to BMW risk team review.</div>
         <div class="decision-range">Score &gt; 60</div>
       </div>
+    </div>
+  </div>
+
+  <!-- BMW Risk Assessment Report (Collapsible) -->
+  <div class="bmw-report-wrapper" id="bmwReportWrapper">
+    <div class="bmw-report-header" onclick="toggleReport()">
+      <span class="bmw-report-header-title">BMW Risk Assessment Report</span>
+      <span class="bmw-report-header-toggle" id="reportToggleIcon">&#9660;</span>
+    </div>
+    <div class="bmw-report-body" id="bmwReportBody">
+      <div id="reportContent"></div>
+      <button class="copy-report-btn" onclick="copyReport()">&#128203; Copy Report to Clipboard</button>
     </div>
   </div>
 
@@ -1165,24 +1411,24 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       <div class="cia-weight-card">
         <div class="cia-letter-badge bg-c" style="color:#fff;">C</div>
         <div class="cia-weight-label">Confidentiality</div>
-        <div id="ciaWeightValC" class="cia-weight-val color-c">0.45</div>
-        <input type="range" class="cia-c-slider" id="ciaSliderC" min="0" max="1" step="0.01" value="0.45"
+        <div id="ciaWeightValC" class="cia-weight-val color-c">0.60</div>
+        <input type="range" class="cia-c-slider" id="ciaSliderC" min="0" max="1" step="0.01" value="0.60"
                oninput="onCIASlider('C', this.value)">
       </div>
       <!-- Integrity -->
       <div class="cia-weight-card">
         <div class="cia-letter-badge bg-i" style="color:#fff;">I</div>
         <div class="cia-weight-label">Integrity</div>
-        <div id="ciaWeightValI" class="cia-weight-val color-i">0.30</div>
-        <input type="range" class="cia-i-slider" id="ciaSliderI" min="0" max="1" step="0.01" value="0.30"
+        <div id="ciaWeightValI" class="cia-weight-val color-i">0.25</div>
+        <input type="range" class="cia-i-slider" id="ciaSliderI" min="0" max="1" step="0.01" value="0.25"
                oninput="onCIASlider('I', this.value)">
       </div>
       <!-- Availability -->
       <div class="cia-weight-card">
         <div class="cia-letter-badge bg-a" style="color:#fff;">A</div>
         <div class="cia-weight-label">Availability</div>
-        <div id="ciaWeightValA" class="cia-weight-val color-a">0.25</div>
-        <input type="range" class="cia-a-slider" id="ciaSliderA" min="0" max="1" step="0.01" value="0.25"
+        <div id="ciaWeightValA" class="cia-weight-val color-a">0.15</div>
+        <input type="range" class="cia-a-slider" id="ciaSliderA" min="0" max="1" step="0.01" value="0.15"
                oninput="onCIASlider('A', this.value)">
       </div>
     </div>
@@ -1245,6 +1491,12 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
 
   <div class="card" style="margin-bottom:16px;">
     <div class="section-title">VSS Text &rarr; Auto-Score</div>
+    <div class="card-sm" style="margin-bottom:14px; background:rgba(243,156,18,0.08); border-color:rgba(243,156,18,0.3);">
+      <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+        <strong style="color:#B7791F;">&#9432; VSS Observability Note:</strong> Signal scores are auto-suggested based on phrase matching and are subject to VSS observability limitations.
+        Attributes marked with &#9888; may require manual review as VSS cannot fully observe this signal type.
+      </div>
+    </div>
     <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">
       Paste a VSS (Video Scene Summary) description below. The scorer will analyze the text and
       automatically suggest C, I, A values for each attribute based on keyword and phrase matching.
@@ -1369,9 +1621,9 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       Three global weights reflect <strong>BMW's organizational prioritization</strong> of each CIA dimension.
       They are normalized to sum to 1 before computation, so you may set them on any scale.
       <ul>
-        <li><strong>&alpha; (Confidentiality)</strong> = 0.45 &mdash; highest priority; protecting trade secrets is BMW's primary concern</li>
-        <li><strong>&beta; (Integrity)</strong> = 0.30 &mdash; medium priority; data accuracy and misuse prevention</li>
-        <li><strong>&gamma; (Availability)</strong> = 0.25 &mdash; lower priority; operational continuity risk</li>
+        <li><strong>&alpha; (Confidentiality)</strong> = 0.60 &mdash; highest priority; protecting trade secrets is BMW's primary concern</li>
+        <li><strong>&beta; (Integrity)</strong> = 0.25 &mdash; medium priority; data accuracy and misuse prevention</li>
+        <li><strong>&gamma; (Availability)</strong> = 0.15 &mdash; lower priority; operational continuity risk</li>
       </ul>
       These weights can be adjusted to reflect a specific data-sharing scenario or partner context.
     </div>
@@ -1396,6 +1648,26 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
       <div class="formula-box">Risk Score = 100 &times; (&alpha;n &times; C_avg + &beta;n &times; I_avg + &gamma;n &times; A_avg)</div>
       Each attribute's weight reflects its relative importance to the overall risk assessment.
       Weights do not need to sum to 1 &mdash; they are normalized automatically.
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-num">Step 6</div>
+    <div class="step-title">ICL Classification &amp; Maximum Principle</div>
+    <div class="step-body">
+      The final numeric risk score is mapped to BMW's four <strong>Information Classification Levels (ICL)</strong>:
+      <ul>
+        <li><strong>0&ndash;25</strong> &rarr; <strong>Not Public</strong> &mdash; damage potential up to ~$10,000 (Basic Protection)</li>
+        <li><strong>26&ndash;45</strong> &rarr; <strong>Confidential</strong> &mdash; damage potential up to ~$1,000,000 (Basic Protection)</li>
+        <li><strong>46&ndash;70</strong> &rarr; <strong>Strictly Confidential</strong> &mdash; damage potential up to ~$100,000,000 (Special Protection)</li>
+        <li><strong>71&ndash;100</strong> &rarr; <strong>Secret</strong> &mdash; damage potential over $100,000,000 (Highest Protection)</li>
+      </ul>
+      <br>
+      <strong>Maximum Principle:</strong> BMW's ICL aggregation rules specify that if any single attribute scores critically high (&ge; 0.85),
+      the entire dataset is escalated to the next classification level regardless of the aggregate score. This prevents a single high-risk
+      signal from being diluted by averaging across many low-risk attributes.
+      <br><br>
+      The suggested ICL level should always be reviewed and confirmed by a qualified BMW risk analyst before any data sharing decision is made &mdash; subject to BMW risk team review.
     </div>
   </div>
 
@@ -1618,7 +1890,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
    DATA MODEL — defaults as a frozen source of truth
    ============================================================ */
 const DEFAULTS = Object.freeze({
-  globalCIA: [0.45, 0.30, 0.25],
+  globalCIA: [0.60, 0.25, 0.15],
   attributes: [
     {
       name: 'Worker Presence',
@@ -1666,6 +1938,7 @@ const DEFAULTS = Object.freeze({
       signal: 0.6,
       cia: [0.90, 0.40, 0.10],
       weight: 0.20,
+      vssLimited: true,
       guide: {
         definition: 'Measures how clearly the operational workflow can be understood from the observed process.',
         whyMatters: 'Clear workflow logic allows external parties to reverse-engineer BMW manufacturing sequences, process dependencies, and production cadences.',
@@ -1704,6 +1977,7 @@ const DEFAULTS = Object.freeze({
       signal: 0.6,
       cia: [0.30, 0.50, 0.90],
       weight: 0.15,
+      vssLimited: true,
       guide: {
         definition: 'Measures how critical the observed system or equipment appears to the operational workflow.',
         whyMatters: 'Critical-path machines represent operational vulnerabilities; their exposure reveals single points of failure and production bottlenecks to external parties.',
@@ -1761,6 +2035,7 @@ const DEFAULTS = Object.freeze({
       signal: 0.7,
       cia: [0.40, 0.80, 0.40],
       weight: 0.10,
+      vssLimited: true,
       guide: {
         definition: 'Measures evidence of monitoring, verification, or inspection behavior in the scene.',
         whyMatters: 'Active inspection reveals quality control methodologies, process verification standards, and compliance checkpoints that are proprietary to BMW\'s operational excellence programs.',
@@ -1799,6 +2074,29 @@ const GROUPS = {
 };
 
 /* ============================================================
+   ICL LEVEL MAPPING
+   ============================================================ */
+const ICL_LEVELS = [
+  { maxScore: 25,  label: 'Not Public',            damage: 'Up to ~$10,000',        protection: 'Basic Protection',   color: '#27AE60' },
+  { maxScore: 45,  label: 'Confidential',           damage: 'Up to ~$1,000,000',     protection: 'Basic Protection',   color: '#D4AC0D' },
+  { maxScore: 70,  label: 'Strictly Confidential',  damage: 'Up to ~$100,000,000',   protection: 'Special Protection', color: '#E67E22' },
+  { maxScore: 100, label: 'Secret',                  damage: 'Over $100,000,000',     protection: 'Highest Protection', color: '#E74C3C' },
+];
+
+function getICLLevel(score) {
+  for (const lvl of ICL_LEVELS) {
+    if (score <= lvl.maxScore) return lvl;
+  }
+  return ICL_LEVELS[ICL_LEVELS.length - 1];
+}
+
+function getEscalatedICL(icl) {
+  const idx = ICL_LEVELS.indexOf(icl);
+  if (idx < ICL_LEVELS.length - 1) return ICL_LEVELS[idx + 1];
+  return icl;
+}
+
+/* ============================================================
    CALCULATION ENGINE
    ============================================================ */
 function compute() {
@@ -1814,6 +2112,10 @@ function compute() {
   let cNumerator = 0, iNumerator = 0, aNumerator = 0;
   const scores = [];
 
+  // Maximum principle check
+  let maxPrincipleTriggered = false;
+  const maxPrincipleAttrs = [];
+
   for (let i = 0; i < attrs.length; i++) {
     const a = attrs[i];
     const [C, I, A] = a.cia;
@@ -1822,6 +2124,13 @@ function compute() {
     cNumerator += a.weight * C;
     iNumerator += a.weight * I;
     aNumerator += a.weight * A;
+
+    // Check signal (use max of CIA values as effective signal)
+    const maxCIA = Math.max(C, I, A);
+    if (maxCIA >= 0.85) {
+      maxPrincipleTriggered = true;
+      maxPrincipleAttrs.push({ name: a.name, score: maxCIA });
+    }
   }
 
   const cScore    = 100 * cNumerator / wSum;
@@ -1833,7 +2142,7 @@ function compute() {
     return riskScore > 0 ? (100 * (a.weight * scores[i] / wSum) / riskScore) : 0;
   });
 
-  return { riskScore, cScore, iScore, aScore, scores, contribs, wSum };
+  return { riskScore, cScore, iScore, aScore, scores, contribs, wSum, maxPrincipleTriggered, maxPrincipleAttrs };
 }
 
 /* ============================================================
@@ -1857,7 +2166,7 @@ function getDecision(score) {
    ============================================================ */
 function updateUI() {
   const result = compute();
-  const { riskScore, cScore, iScore, aScore, scores, contribs } = result;
+  const { riskScore, cScore, iScore, aScore, scores, contribs, maxPrincipleTriggered, maxPrincipleAttrs } = result;
   const level = getRiskLevel(riskScore);
 
   const numEl = document.getElementById('scoreNumber');
@@ -1867,6 +2176,31 @@ function updateUI() {
   const badge = document.getElementById('levelBadge');
   badge.textContent = level.label;
   badge.className = 'risk-level-badge ' + level.badgeCls;
+
+  // ICL Level
+  let icl = getICLLevel(riskScore);
+  let effectiveICL = icl;
+  if (maxPrincipleTriggered) {
+    effectiveICL = getEscalatedICL(icl);
+  }
+
+  const iclBadge = document.getElementById('iclBadge');
+  iclBadge.textContent = effectiveICL.label;
+  iclBadge.style.background = effectiveICL.color;
+  document.getElementById('iclDamage').textContent = effectiveICL.damage;
+  document.getElementById('iclProtection').textContent = effectiveICL.protection;
+
+  // Maximum Principle Banner
+  const mpBanner = document.getElementById('maxPrincipleBanner');
+  if (maxPrincipleTriggered) {
+    mpBanner.classList.add('active');
+    const attrList = maxPrincipleAttrs.map(a => `<strong>${a.name}</strong> scored ${a.score.toFixed(2)}`).join('; ');
+    document.getElementById('maxPrincipleBody').innerHTML =
+      attrList + '. Per BMW ICL aggregation rules, the entire dataset should be escalated to the next classification level.' +
+      (effectiveICL !== icl ? ' Classification escalated from <strong>' + icl.label + '</strong> to <strong>' + effectiveICL.label + '</strong>.' : ' Already at highest classification level.');
+  } else {
+    mpBanner.classList.remove('active');
+  }
 
   const bar = document.getElementById('scoreBar');
   bar.style.width = Math.min(riskScore, 100).toFixed(1) + '%';
@@ -1925,6 +2259,141 @@ function updateUI() {
   }
 
   updateWorkedExample(scores, result);
+  updateStructuredReport(result, effectiveICL, icl, maxPrincipleTriggered, maxPrincipleAttrs);
+}
+
+/* ============================================================
+   STRUCTURED REPORT
+   ============================================================ */
+function updateStructuredReport(result, effectiveICL, baseICL, mpTriggered, mpAttrs) {
+  const { riskScore, cScore, iScore, aScore } = result;
+  const container = document.getElementById('reportContent');
+  if (!container) return;
+
+  const attrs = state.attributes;
+  const [alpha, beta, gamma] = state.globalCIA;
+  const ciaSum = alpha + beta + gamma;
+  const an = ciaSum > 0 ? alpha / ciaSum : 1/3;
+
+  // Section 1 — Classification Summary
+  let html = '<div class="report-section">';
+  html += '<div class="report-section-title">Section 1 — Classification Summary</div>';
+  html += `<div class="report-row"><span class="report-row-label">Computed Risk Score</span><span class="report-row-value">${riskScore.toFixed(1)} / 100</span></div>`;
+  html += `<div class="report-row"><span class="report-row-label">Suggested ICL Level</span><span class="report-row-value" style="color:${effectiveICL.color};">${effectiveICL.label}</span></div>`;
+  html += `<div class="report-row"><span class="report-row-label">Damage Potential Range</span><span class="report-row-value">${effectiveICL.damage}</span></div>`;
+  html += `<div class="report-row"><span class="report-row-label">Protection Class Required</span><span class="report-row-value">${effectiveICL.protection}</span></div>`;
+  html += `<div class="report-row"><span class="report-row-label">Maximum Principle Status</span><span class="report-row-value" style="color:${mpTriggered ? '#E74C3C' : '#27AE60'};">${mpTriggered ? 'TRIGGERED' : 'Not triggered'}</span></div>`;
+  if (mpTriggered && effectiveICL !== baseICL) {
+    html += `<div class="report-row"><span class="report-row-label">Base ICL (before escalation)</span><span class="report-row-value">${baseICL.label}</span></div>`;
+  }
+  html += '</div>';
+
+  // Section 2 — Observed Signals
+  html += '<div class="report-section">';
+  html += '<div class="report-section-title">Section 2 — Observed Signals</div>';
+  attrs.forEach((a, i) => {
+    const maxCIA = Math.max(a.cia[0], a.cia[1], a.cia[2]);
+    let statusLabel = 'baseline';
+    let statusColor = 'var(--text-muted)';
+    let statusBg = 'var(--badge-bg)';
+    if (maxCIA >= 0.85) { statusLabel = 'CRITICAL'; statusColor = '#E74C3C'; statusBg = 'rgba(231,76,60,0.15)'; }
+    else if (maxCIA > 0.5) { statusLabel = 'detected'; statusColor = '#F39C12'; statusBg = 'rgba(243,156,18,0.15)'; }
+
+    // Determine primary CIA threat
+    const ciaLabels = ['C','I','A'];
+    const maxIdx = a.cia.indexOf(Math.max(...a.cia));
+    const primaryThreat = ciaLabels[maxIdx];
+
+    html += `<div class="report-attr-row">
+      <span class="report-attr-name">${a.name}</span>
+      <span class="report-attr-score">${maxCIA.toFixed(2)}</span>
+      <span class="report-attr-badge" style="background:${statusBg}; color:${statusColor};">${statusLabel}</span>
+      <span class="report-attr-cia">Primary: ${primaryThreat}</span>
+    </div>`;
+  });
+  html += '</div>';
+
+  // Section 3 — Escalation Flags
+  html += '<div class="report-section">';
+  html += '<div class="report-section-title">Section 3 — Escalation Flags</div>';
+
+  if (mpTriggered) {
+    html += `<div class="report-row"><span class="report-row-label">Maximum Principle</span><span class="report-row-value" style="color:#E74C3C;">TRIGGERED — ${mpAttrs.map(a => a.name).join(', ')}</span></div>`;
+  } else {
+    html += `<div class="report-row"><span class="report-row-label">Maximum Principle</span><span class="report-row-value" style="color:#27AE60;">Not triggered</span></div>`;
+  }
+
+  const maxSignalAttrs = attrs.filter(a => Math.max(...a.cia) >= 1.0);
+  if (maxSignalAttrs.length > 0) {
+    html += `<div class="report-row"><span class="report-row-label">Maximum Signal (1.0)</span><span class="report-row-value" style="color:#E74C3C;">${maxSignalAttrs.map(a=>a.name).join(', ')}</span></div>`;
+  } else {
+    html += `<div class="report-row"><span class="report-row-label">Maximum Signal (1.0)</span><span class="report-row-value">None</span></div>`;
+  }
+
+  const cWeightedScore = cScore / 100;
+  html += `<div class="report-row"><span class="report-row-label">High Confidentiality Exposure (C-weighted > 0.5)</span><span class="report-row-value" style="color:${cWeightedScore > 0.5 ? '#E74C3C' : '#27AE60'};">${cWeightedScore > 0.5 ? 'YES — ' + cWeightedScore.toFixed(2) : 'No — ' + cWeightedScore.toFixed(2)}</span></div>`;
+  html += '</div>';
+
+  // Section 4 — Recommendation
+  html += '<div class="report-section">';
+  html += '<div class="report-section-title">Section 4 — Recommendation</div>';
+  html += '<div class="report-recommendation">This report is generated as a structured input for BMW\'s Information Classification (ICL) process. The suggested classification level above should be reviewed and confirmed by a qualified BMW risk analyst before any data sharing decision is made. Final authority rests with the designated Information Owner.</div>';
+  html += '</div>';
+
+  container.innerHTML = html;
+}
+
+function toggleReport() {
+  const body = document.getElementById('bmwReportBody');
+  const icon = document.getElementById('reportToggleIcon');
+  body.classList.toggle('open');
+  icon.textContent = body.classList.contains('open') ? '\u25B2' : '\u25BC';
+}
+
+function copyReport() {
+  const result = compute();
+  const icl = getICLLevel(result.riskScore);
+  const effectiveICL = result.maxPrincipleTriggered ? getEscalatedICL(icl) : icl;
+  const attrs = state.attributes;
+
+  let text = '=== BMW RISK ASSESSMENT REPORT ===\n\n';
+  text += '--- SECTION 1: CLASSIFICATION SUMMARY ---\n';
+  text += `Computed Risk Score: ${result.riskScore.toFixed(1)} / 100\n`;
+  text += `Suggested ICL Level: ${effectiveICL.label}\n`;
+  text += `Damage Potential Range: ${effectiveICL.damage}\n`;
+  text += `Protection Class Required: ${effectiveICL.protection}\n`;
+  text += `Maximum Principle Status: ${result.maxPrincipleTriggered ? 'TRIGGERED' : 'Not triggered'}\n`;
+  if (result.maxPrincipleTriggered && effectiveICL !== icl) {
+    text += `Base ICL (before escalation): ${icl.label}\n`;
+  }
+
+  text += '\n--- SECTION 2: OBSERVED SIGNALS ---\n';
+  attrs.forEach(a => {
+    const maxCIA = Math.max(...a.cia);
+    const status = maxCIA >= 0.85 ? 'CRITICAL' : maxCIA > 0.5 ? 'detected' : 'baseline';
+    const ciaLabels = ['C','I','A'];
+    const primary = ciaLabels[a.cia.indexOf(Math.max(...a.cia))];
+    text += `${a.name}: ${maxCIA.toFixed(2)} [${status}] (Primary: ${primary})\n`;
+  });
+
+  text += '\n--- SECTION 3: ESCALATION FLAGS ---\n';
+  text += `Maximum Principle: ${result.maxPrincipleTriggered ? 'TRIGGERED — ' + result.maxPrincipleAttrs.map(a=>a.name).join(', ') : 'Not triggered'}\n`;
+  const maxSigAttrs = attrs.filter(a => Math.max(...a.cia) >= 1.0);
+  text += `Maximum Signal (1.0): ${maxSigAttrs.length > 0 ? maxSigAttrs.map(a=>a.name).join(', ') : 'None'}\n`;
+  const cw = result.cScore / 100;
+  text += `High C Exposure (>0.5): ${cw > 0.5 ? 'YES — ' + cw.toFixed(2) : 'No — ' + cw.toFixed(2)}\n`;
+
+  text += '\n--- SECTION 4: RECOMMENDATION ---\n';
+  text += 'This report is generated as a structured input for BMW\'s Information Classification (ICL) process. ';
+  text += 'The suggested classification level above should be reviewed and confirmed by a qualified BMW risk analyst ';
+  text += 'before any data sharing decision is made. Final authority rests with the designated Information Owner.\n';
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-report-btn');
+    const orig = btn.textContent;
+    btn.textContent = '\u2713 Copied!';
+    setTimeout(() => { btn.innerHTML = '&#128203; Copy Report to Clipboard'; }, 2000);
+  });
 }
 
 /* ============================================================
@@ -2048,6 +2517,7 @@ function updateWorkedExample(scores, result) {
   });
 
   const finalScore = 100 * totalWeightedScore / wSum;
+  const iclLevel = getICLLevel(finalScore);
 
   tbl.innerHTML = `
     <div class="worked-table-wrap">
@@ -2075,15 +2545,18 @@ function updateWorkedExample(scores, result) {
   `;
 
   sum.innerHTML = `
-    Using default weights (&alpha;=0.45, &beta;=0.30, &gamma;=0.25) and default attribute values,
+    Using default weights (&alpha;=0.60, &beta;=0.25, &gamma;=0.15) and default attribute values,
     the final risk score is <strong style="color:var(--accent);">${finalScore.toFixed(1)} / 100</strong>
-    &mdash; placing this scenario in the <strong>${getRiskLevel(finalScore).label}</strong> category.
+    &mdash; placing this scenario in the <strong>${getRiskLevel(finalScore).label}</strong> category
+    and suggesting an ICL classification of <strong style="color:${iclLevel.color};">${iclLevel.label}</strong>.
   `;
 }
 
 /* ============================================================
    ATTRIBUTE GUIDE — render cards
    ============================================================ */
+const VSS_LIMITED_ATTRS = ['Process Transparency', 'Machine Criticality', 'Inspection Activity'];
+
 function renderGuide() {
   const grid = document.getElementById('guideGrid');
   if (!grid) return;
@@ -2092,16 +2565,22 @@ function renderGuide() {
   DEFAULTS.attributes.forEach(a => {
     const g = GROUPS[a.groupKey];
     const [C, I, A] = a.cia;
+    const isVSSLimited = VSS_LIMITED_ATTRS.includes(a.name);
 
     const rubricRows = a.guide.rubric.map(r =>
       `<div class="guide-rubric-item"><span class="guide-rubric-val">${r.val}</span><span>${r.desc}</span></div>`
     ).join('');
 
+    const vssNote = isVSSLimited ? `
+      <div class="vss-observability-note">
+        <strong>&#9888; VSS Observability Note:</strong> This attribute may be partially observable from VSS text alone. Manual review recommended when this attribute scores above 0.6.
+      </div>` : '';
+
     html += `
       <div class="guide-card">
         <div class="guide-card-header">
           <div class="attr-dot ${g.colorClass}" style="width:10px;height:10px;border-radius:50%;flex-shrink:0;"></div>
-          <div class="guide-attr-name">${a.name}</div>
+          <div class="guide-attr-name">${a.name}${isVSSLimited ? ' &#9888;' : ''}</div>
           <div class="guide-group-badge ${g.colorClass}">${g.label}</div>
         </div>
         <div class="guide-section-label">Definition</div>
@@ -2118,6 +2597,7 @@ function renderGuide() {
           <div class="cia-profile-badge" style="background:rgba(14,165,233,0.15); color:#0EA5E9;">I = ${I.toFixed(2)}</div>
           <div class="cia-profile-badge" style="background:rgba(16,185,129,0.15); color:#10B981;">A = ${A.toFixed(2)}</div>
         </div>
+        ${vssNote}
       </div>
     `;
   });
@@ -2224,12 +2704,12 @@ const VSS_SCORING_MAP = [
     attrIndex: 0,
     name: 'Worker Presence',
     rules: [
-      { pattern: /\b(workers?|employees?|operators?|personnel|individuals?|people|technicians?|staff)\b/gi,        score: 0.3,  conf: 0.4, label: 'worker mention' },
-      { pattern: /\b(two|2|multiple|several|group|team|pair)\b.{0,30}\b(workers?|people|individuals?|employees?)\b/gi, score: 0.6, conf: 0.8, label: 'multiple workers' },
-      { pattern: /\b(workers?|individuals?|employees?).{0,30}\b(together|alongside|each other|side by side)\b/gi,  score: 0.9, conf: 0.9, label: 'workers together' },
-      { pattern: /\b(crowd|many workers?|large group|numerous)\b/gi,                                               score: 1.0, conf: 0.9, label: 'large group' },
-      { pattern: /\b(alone|single worker|one (worker|person|individual|employee))\b/gi,                           score: 0.3, conf: 0.7, label: 'single worker' },
-      { pattern: /\b(no workers?|empty|unoccupied|no (people|personnel|staff))\b/gi,                              score: 0.0, conf: 0.8, label: 'no workers' },
+      { pattern: /\b(workers?|employees?|operators?|personnel|individuals?|people|technicians?|staff|assemblers?)\b/gi,        score: 0.3,  conf: 0.4, label: 'worker mention' },
+      { pattern: /\b(two|2|multiple|several|group|team|pair|crew)\b.{0,30}\b(workers?|people|individuals?|employees?|operators?|technicians?)\b/gi, score: 0.6, conf: 0.8, label: 'multiple workers' },
+      { pattern: /\b(workers?|individuals?|employees?|operators?).{0,30}\b(together|alongside|each other|side by side|in unison)\b/gi,  score: 0.9, conf: 0.9, label: 'workers together' },
+      { pattern: /\b(crowd|many workers?|large group|numerous|full shift|entire crew)\b/gi,                                               score: 1.0, conf: 0.9, label: 'large group' },
+      { pattern: /\b(alone|single worker|one (worker|person|individual|employee|operator)|solo)\b/gi,                           score: 0.3, conf: 0.7, label: 'single worker' },
+      { pattern: /\b(no workers?|empty|unoccupied|no (people|personnel|staff)|unmanned)\b/gi,                              score: 0.0, conf: 0.8, label: 'no workers' },
     ]
   },
   {
@@ -2238,24 +2718,26 @@ const VSS_SCORING_MAP = [
     rules: [
       { pattern: /\b(stand(ing)? together|work(ing)? together|side by side|next to each other)\b/gi,               score: 0.9, conf: 0.9, label: 'standing together' },
       { pattern: /\b(inspects?|inspect(ing)?|examin(e|ing)|check(ing)?|review(ing)?).{0,30}\b(together|jointly|alongside)\b/gi, score: 0.8, conf: 0.8, label: 'joint inspection' },
-      { pattern: /\b(collaborat(e|ing)|coordinat(e|ing)|communicat(e|ing)|talk(ing)?|discuss(ing)?)\b/gi,          score: 0.8, conf: 0.7, label: 'collaboration' },
+      { pattern: /\b(collaborat(e|ing)|coordinat(e|ing)|communicat(e|ing)|talk(ing)?|discuss(ing)?|briefing|huddle)\b/gi,          score: 0.8, conf: 0.7, label: 'collaboration' },
       { pattern: /\b(hands(?: |-)?on|close(ly)?|adjacent|nearby|shoulder to shoulder)\b/gi,                       score: 0.7, conf: 0.7, label: 'close proximity' },
-      { pattern: /\b(separate(d)?|apart|different (area|zone|section)|isolated)\b/gi,                             score: 0.2, conf: 0.6, label: 'separated workers' },
+      { pattern: /\b(separate(d)?|apart|different (area|zone|section|station|cell)|isolated)\b/gi,                             score: 0.2, conf: 0.6, label: 'separated workers' },
       { pattern: /\binteract(ing|ion)?\b/gi,                                                                       score: 0.6, conf: 0.6, label: 'interaction' },
     ]
   },
   {
     attrIndex: 2,
     name: 'Process Transparency',
+    vssLimited: true,
     rules: [
-      { pattern: /\b(retrieves?|picks? up|grabs?).{0,40}\b(place[sd]?|put[s]?|position[s]?|arrange[sd]?)\b/gi,   score: 0.7, conf: 0.8, label: 'retrieve-place sequence' },
-      { pattern: /\b(sequence|workflow|step(s|ped)?|procedure|process|protocol|routine)\b/gi,                     score: 0.7, conf: 0.7, label: 'workflow language' },
-      { pattern: /\b(organiz(e|ing|es)|sort(s|ing|ed)?|assemble[sd]?|assembl(y|ing))\b/gi,                       score: 0.6, conf: 0.6, label: 'organizing activity' },
+      { pattern: /\b(retrieves?|picks? up|grabs?).{0,40}\b(place[sd]?|put[s]?|position[s]?|arrange[sd]?|install[s]?)\b/gi,   score: 0.7, conf: 0.8, label: 'retrieve-place sequence' },
+      { pattern: /\b(sequence|workflow|step(s|ped)?|procedure|process|protocol|routine|cycle time|takt)\b/gi,                     score: 0.7, conf: 0.7, label: 'workflow language' },
+      { pattern: /\b(organiz(e|ing|es)|sort(s|ing|ed)?|assemble[sd]?|assembl(y|ing)|weld(ing|s|ed)?|paint(ing|s|ed)?|stamp(ing|s|ed)?)\b/gi,  score: 0.6, conf: 0.6, label: 'manufacturing activity' },
       { pattern: /\b(then|next|after(ward)?|subsequently|followed by|before)\b/gi,                                score: 0.5, conf: 0.5, label: 'sequential language' },
-      { pattern: /\b(stage|phase|step \d|station|checkpoint|queue)\b/gi,                                          score: 0.6, conf: 0.7, label: 'production stage' },
-      { pattern: /\b(proprietary|specialized|custom|BMW[-\s]specific)\b/gi,                                       score: 1.0, conf: 0.9, label: 'proprietary process' },
+      { pattern: /\b(stage|phase|step \d|station|checkpoint|queue|work cell|production bay)\b/gi,                                          score: 0.6, conf: 0.7, label: 'production stage' },
+      { pattern: /\b(proprietary|specialized|custom|BMW[-\s]specific|trade secret)\b/gi,                                       score: 1.0, conf: 0.9, label: 'proprietary process' },
       { pattern: /\b(generic|routine|standard|normal|regular|common)\b/gi,                                        score: 0.2, conf: 0.5, label: 'generic activity' },
-      { pattern: /\b(measure[sd]?|measur(e|ing)|dimension[s]?|spacing|calibrat(e|ing|ion))\b/gi,                  score: 0.8, conf: 0.8, label: 'measurement activity' },
+      { pattern: /\b(measure[sd]?|measur(e|ing)|dimension[s]?|spacing|calibrat(e|ing|ion)|torque|tolerance)\b/gi,                  score: 0.8, conf: 0.8, label: 'measurement activity' },
+      { pattern: /\b(body[-\s]?shop|paint[-\s]?shop|trim[-\s]?line|final[-\s]?assembly|press[-\s]?shop|chassis)\b/gi,            score: 0.9, conf: 0.9, label: 'BMW production area' },
     ]
   },
   {
@@ -2263,25 +2745,28 @@ const VSS_SCORING_MAP = [
     name: 'Equipment Visibility',
     rules: [
       { pattern: /\bforklift\b/gi,                                                                                 score: 0.5, conf: 0.8, label: 'forklift' },
-      { pattern: /\b(conveyor|robotic arm|CNC|lathe|press|stamping|welding|laser|scanner)\b/gi,                   score: 0.9, conf: 0.9, label: 'specialized machine' },
+      { pattern: /\b(conveyor|robotic arm|CNC|lathe|press|stamping|welding|laser|scanner|cobot|servo)\b/gi,                   score: 0.9, conf: 0.9, label: 'specialized machine' },
       { pattern: /\b(machine(ry)?|equipment|apparatus|device[s]?)\b/gi,                                          score: 0.4, conf: 0.4, label: 'generic equipment' },
-      { pattern: /\b(proprietary|custom[-\s]built|branded|BMW[-\s]specific|specialized)\b.{0,30}\b(machine|equipment|tool|system)\b/gi, score: 1.0, conf: 0.9, label: 'proprietary equipment' },
+      { pattern: /\b(proprietary|custom[-\s]built|branded|BMW[-\s]specific|specialized)\b.{0,30}\b(machine|equipment|tool|system|robot)\b/gi, score: 1.0, conf: 0.9, label: 'proprietary equipment' },
       { pattern: /\b(pallet jack|hand truck|dolly|cart)\b/gi,                                                     score: 0.3, conf: 0.7, label: 'basic material handling' },
-      { pattern: /\b(shelf|shelv(es|ing)|rack|bin|tote|box(es)?|crate)\b/gi,                                     score: 0.2, conf: 0.5, label: 'generic storage' },
-      { pattern: /\b(automated|autonomous|AGV|AMR|robot(ic)?)\b/gi,                                               score: 0.8, conf: 0.8, label: 'automated equipment' },
-      { pattern: /\b(sensor[s]?|camera[s]?|monitor[s]?|display[s]?|control panel)\b/gi,                          score: 0.7, conf: 0.7, label: 'monitoring equipment' },
+      { pattern: /\b(shelf|shelv(es|ing)|rack|bin|tote|box(es)?|crate|container)\b/gi,                                     score: 0.2, conf: 0.5, label: 'generic storage' },
+      { pattern: /\b(automated?|autonomous|AGV|AMR|robot(ic)?|cobot|collaborative robot)\b/gi,                                               score: 0.8, conf: 0.8, label: 'automated equipment' },
+      { pattern: /\b(sensor[s]?|camera[s]?|monitor[s]?|display[s]?|control panel|PLC|HMI|SCADA)\b/gi,                          score: 0.7, conf: 0.7, label: 'monitoring equipment' },
+      { pattern: /\b(KUKA|FANUC|ABB|Siemens|Bosch|Rexroth|Dürr)\b/gi,                                           score: 0.9, conf: 0.9, label: 'OEM equipment brand' },
     ]
   },
   {
     attrIndex: 4,
     name: 'Machine Criticality',
+    vssLimited: true,
     rules: [
-      { pattern: /\b(critical|essential|core|primary|main|key)\b.{0,30}\b(machine|system|equipment|process|line)\b/gi, score: 1.0, conf: 0.9, label: 'critical system' },
-      { pattern: /\b(production line|assembly line|main line|primary process)\b/gi,                               score: 0.9, conf: 0.8, label: 'production line' },
-      { pattern: /\b(transports?|mov(e|ing|es)|carr(y|ies|ying)|deliver(s|ing)?)\b.{0,30}\b(inventory|goods|parts?|components?|materials?)\b/gi, score: 0.6, conf: 0.7, label: 'material transport' },
+      { pattern: /\b(critical|essential|core|primary|main|key)\b.{0,30}\b(machine|system|equipment|process|line|robot)\b/gi, score: 1.0, conf: 0.9, label: 'critical system' },
+      { pattern: /\b(production line|assembly line|main line|primary process|body[-\s]?in[-\s]?white)\b/gi,                               score: 0.9, conf: 0.8, label: 'production line' },
+      { pattern: /\b(transports?|mov(e|ing|es)|carr(y|ies|ying)|deliver(s|ing)?|convey(s|ing)?)\b.{0,30}\b(inventory|goods|parts?|components?|materials?|bodies|chassis)\b/gi, score: 0.6, conf: 0.7, label: 'material transport' },
       { pattern: /\b(support(ing)?|auxiliary|secondary|minor|peripheral|supplemental)\b/gi,                       score: 0.2, conf: 0.6, label: 'support activity' },
-      { pattern: /\b(bottleneck|single point|cannot (continue|proceed|operate) without)\b/gi,                     score: 1.0, conf: 0.9, label: 'bottleneck' },
+      { pattern: /\b(bottleneck|single point|cannot (continue|proceed|operate) without|critical[-\s]?path)\b/gi,                     score: 1.0, conf: 0.9, label: 'bottleneck' },
       { pattern: /\b(backup|redundan(t|cy)|failover|contingency)\b/gi,                                            score: 0.3, conf: 0.6, label: 'redundant system' },
+      { pattern: /\b(downtime|line[-\s]?stop|halt(ed|s)?|shut[-\s]?down|outage)\b/gi,                            score: 0.9, conf: 0.8, label: 'downtime indicator' },
     ]
   },
   {
@@ -2289,11 +2774,11 @@ const VSS_SCORING_MAP = [
     name: 'Human Process Dependency',
     rules: [
       { pattern: /\b(manually|by hand|hand[-\s]operated|manual(ly)?)\b/gi,                                        score: 0.9, conf: 0.8, label: 'manual operation' },
-      { pattern: /\b(worker|human|person|operator|employee).{0,30}\b(places?|adjusts?|positions?|moves?|carries?|handles?)\b/gi, score: 0.7, conf: 0.7, label: 'human-driven action' },
+      { pattern: /\b(worker|human|person|operator|employee|technician).{0,30}\b(places?|adjusts?|positions?|moves?|carries?|handles?|loads?|installs?)\b/gi, score: 0.7, conf: 0.7, label: 'human-driven action' },
       { pattern: /\b(automated?|autonomous|automatic(ally)?|robot(ic|ized)?|machine-?driven)\b/gi,                score: 0.2, conf: 0.7, label: 'automation signal' },
-      { pattern: /\b(semi[-\s]?automated?|hybrid|assisted|supervised automation)\b/gi,                            score: 0.5, conf: 0.7, label: 'semi-automated' },
+      { pattern: /\b(semi[-\s]?automated?|hybrid|assisted|supervised automation|human[-\s]?robot)\b/gi,                            score: 0.5, conf: 0.7, label: 'semi-automated' },
       { pattern: /\b(adjusts?|fine[-\s]?tun(e|ing)|tweak(s|ing)?|correct(s|ing|ion)?)\b/gi,                      score: 0.7, conf: 0.6, label: 'human adjustment' },
-      { pattern: /\b(no workers?|fully automated|no human)\b/gi,                                                   score: 0.1, conf: 0.8, label: 'no human dependency' },
+      { pattern: /\b(no workers?|fully automated|no human|lights[-\s]?out)\b/gi,                                                   score: 0.1, conf: 0.8, label: 'no human dependency' },
     ]
   },
   {
@@ -2303,24 +2788,27 @@ const VSS_SCORING_MAP = [
       { pattern: /\b(caution tape|safety tape|barrier tape|police tape|hazard tape)\b/gi,                         score: 0.7, conf: 0.8, label: 'caution tape' },
       { pattern: /\b(traffic cone[s]?|safety cone[s]?|pylon[s]?)\b/gi,                                           score: 0.7, conf: 0.8, label: 'traffic cones' },
       { pattern: /\b(safety sign[s]?|warning sign[s]?|hazard sign[s]?|signage)\b/gi,                             score: 0.7, conf: 0.7, label: 'safety signage' },
-      { pattern: /\b(PPE|hard hat[s]?|helmet[s]?|safety vest[s]?|glove[s]?|goggles?|safety gear)\b/gi,          score: 0.6, conf: 0.7, label: 'PPE visible' },
-      { pattern: /\b(barrier[s]?|guard(rail)?[s]?|fence|enclosure|safety cage)\b/gi,                             score: 0.8, conf: 0.7, label: 'physical barrier' },
+      { pattern: /\b(PPE|hard hat[s]?|helmet[s]?|safety vest[s]?|glove[s]?|goggles?|safety gear|steel[-\s]?toe)\b/gi,          score: 0.6, conf: 0.7, label: 'PPE visible' },
+      { pattern: /\b(barrier[s]?|guard(rail)?[s]?|fence|enclosure|safety cage|light[-\s]?curtain)\b/gi,                             score: 0.8, conf: 0.7, label: 'physical barrier' },
       { pattern: /\b(e-?stop|emergency stop|interlock|safety switch|kill switch)\b/gi,                           score: 1.0, conf: 0.9, label: 'emergency safety' },
       { pattern: /\b(lockout|tagout|LOTO)\b/gi,                                                                    score: 1.0, conf: 0.9, label: 'LOTO procedure' },
       { pattern: /\b(no safety|no (barrier|sign|control|PPE)|unprotected|unmarked)\b/gi,                         score: 0.1, conf: 0.7, label: 'no safety controls' },
+      { pattern: /\b(andon|5S|kaizen|poka[-\s]?yoke)\b/gi,                                                        score: 0.8, conf: 0.8, label: 'lean safety method' },
     ]
   },
   {
     attrIndex: 7,
     name: 'Inspection Activity',
+    vssLimited: true,
     rules: [
-      { pattern: /\b(measur(e|ing|es|ed)|measuring tape|measure[sd]? (the|distance|spacing|width|length))\b/gi,  score: 0.8, conf: 0.8, label: 'measurement inspection' },
+      { pattern: /\b(measur(e|ing|es|ed)|measuring tape|measure[sd]? (the|distance|spacing|width|length|gap|clearance))\b/gi,  score: 0.8, conf: 0.8, label: 'measurement inspection' },
       { pattern: /\b(inspect(s|ing|ion|ed)?|examin(e|ing|ation|es|ed)?|assess(ing|es|ed|ment)?)\b/gi,            score: 0.7, conf: 0.7, label: 'inspection language' },
-      { pattern: /\b(quality check|QC|quality control|audit|review|verify|verif(y|ying|ication))\b/gi,           score: 0.9, conf: 0.8, label: 'quality control' },
+      { pattern: /\b(quality check|QC|quality control|audit|review|verify|verif(y|ying|ication)|SPC)\b/gi,           score: 0.9, conf: 0.8, label: 'quality control' },
       { pattern: /\b(monitor(ing|s|ed)?|watch(ing|es)?|observ(e|ing|ation|es|ed)?|survey(ing|s|ed)?)\b/gi,       score: 0.6, conf: 0.6, label: 'monitoring behavior' },
       { pattern: /\b(check(ing|s|ed|list)?|scan(ning|s|ned)?|read(ing|s)? (a |the )?(gauge|meter|display|screen))\b/gi, score: 0.6, conf: 0.6, label: 'checking/scanning' },
       { pattern: /\b(record(ing|s|ed)?|log(ging|s|ged)?|document(ing|s|ed|ation)?|clipboard|tablet|form)\b/gi,   score: 0.7, conf: 0.7, label: 'recording activity' },
       { pattern: /\b(no inspection|passing through|not inspecting|just moving|routine (pass|walk))\b/gi,          score: 0.1, conf: 0.7, label: 'no inspection' },
+      { pattern: /\b(CMM|coordinate measuring|laser scan|3D scan|dimensional)\b/gi,                               score: 0.9, conf: 0.9, label: 'precision metrology' },
     ]
   },
 ];
@@ -2379,7 +2867,7 @@ function runVSSScore() {
     const confidence = matched.length > 0 ? Math.min(1, totalConf) : 0.1;
     vssScores[attr.attrIndex] = [finalScore, finalScore, finalScore];
 
-    results.push({ attrIndex: attr.attrIndex, name: attr.name, score: finalScore, confidence, matched });
+    results.push({ attrIndex: attr.attrIndex, name: attr.name, score: finalScore, confidence, matched, vssLimited: attr.vssLimited || false });
   });
 
   renderVSSResults(results, allKeywords);
@@ -2418,6 +2906,8 @@ function renderVSSResults(results, keywords) {
                            color:${gColors[gkey]}; margin: ${idx > 0 ? '18px' : '4px'} 0 8px;">${groupNames[gkey]}</div>`;
     }
 
+    const vssWarning = r.vssLimited ? ' <span style="color:#F39C12;" title="VSS observability limited for this attribute">&#9888;</span>' : '';
+
     const ciaColors = ['#8B5CF6','#0EA5E9','#10B981'];
     const ciaLabels = ['C','I','A'];
     const ciaSliders = ciaLabels.map((lbl, di) => `
@@ -2435,7 +2925,7 @@ function renderVSSResults(results, keywords) {
     <div style="background:var(--bg-card-alt); border:1px solid var(--border); border-radius:8px;
                 padding:12px 14px; margin-bottom:8px;">
       <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
-        <span style="font-size:13px; font-weight:600; color:var(--text-primary); flex:1;">${r.name}</span>
+        <span style="font-size:13px; font-weight:600; color:var(--text-primary); flex:1;">${r.name}${vssWarning}</span>
         <span style="font-size:11px; color:${confColor};">Confidence: ${confPct}%</span>
       </div>
       ${ciaSliders}
@@ -2456,7 +2946,15 @@ function sendToCalculator() {
   updateUI();
   switchTab('calc');
 
+  // Auto-open the structured report
   setTimeout(() => {
+    const reportBody = document.getElementById('bmwReportBody');
+    const icon = document.getElementById('reportToggleIcon');
+    if (reportBody && !reportBody.classList.contains('open')) {
+      reportBody.classList.add('open');
+      if (icon) icon.textContent = '\u25B2';
+    }
+
     const badge = document.getElementById('levelBadge');
     if (badge) {
       const orig = badge.textContent;
